@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <form action="/action_page.html">
+        <fieldset>
+            <legend>Sistema de Gestão Acadêmica</legend>
+
+            <label for="login">Login:</label><br>
+            <input type="login" id="login" name="login"><br>
+
+            <label for="senha">Senha:</label><br>
+            <input type="password" id="senha" name="senha">
+
+            <label for="browser"><h4>Status:</h4></label>
+            <input list="browsers" name="browser" id="browser">
+            <datalist id="browsers">
+            <option value="Ativo">
+            <option value="Inaivo">
+            </datalist><br><br>
+
+            <h4>Tipo:</h4>
+            <input type="radio" id="tecnico" name="tipo" value="tecnico">
+                <label for="ti">Técnico</label>
+            <input type="radio" id="prof" name="tipo" value="prof">
+                <label for="prof">Professor</label>
+            <input type="radio" id="aluno" name="tipo" value="aluno">
+                <label for="aluno">Aluno</label>
+
+            <h4>Data Criação:</h4>    
+            <input type="date">
+
+            <h4>Perfil:</h4>
+            <input type="radio" id="conv" name="perfil" value="conv">
+                <label for="ti">Convidado</label>
+            <input type="radio" id="adm" name="perfil" value="adm">
+                <label for="prof">Administrador</label>
+
+            <label for="obs"><h4>Observações:</h4></label>
+            <textarea id="obs" name="obs" rows="4" cols="50">
+            </textarea>
+
+            <label for="browser1"><h4>Módulos:</h4></label>
+            <input list="browsers1" name="browser1" id="browser1">
+            <datalist id="browsers1">
+            <option value="Compras">
+            <option value="Biblioteca">
+            <option value="Acadêmico"><br>
+            <option value="Documentação">
+            <option value="Recursos Humanos">
+            </datalist><br><br>
+
+
+
+
+            <button>Enviar</button>
+        </fieldset>
+    </form>
+
+
+</body>
+</html>

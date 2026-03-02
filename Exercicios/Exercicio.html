@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <form action="/action_page.html">
+        <fieldset>
+            <legend>Título</legend>
+
+            <label for="pnome">Primeiro nome:</label><br>
+            <input type="text" id="pnome" name="pnome"><br>
+
+            <label for="unome">Último nome:</label><br>
+            <input type="text" id="unome" name="unome">
+
+            <h4>Curso:</h4>
+            <input type="radio" id="Ti" name="curso" value="Técnico em Informática">
+                <label for="ti">Técnico em Informática</label><br>
+            <input type="radio" id="Grad" name="curso" value="Graduação - Análise e Desenvolvimento de Sistemas">
+                <label for="Grad">Graduação - Análise e Desenvolvimento de Sistemas</label><br>
+            <input type="radio" id="Prof" name="curso" value="Profissionalizante - Prograação Web">
+                <label for="prof">Profissionalizante - Prograação Web</label><br>
+
+
+            <h4>LInguaens de Programação de sua preferência:</h4>
+            <input type="checkbox" id="PHP" name="linguagem" value="PHP">
+                <label for="php">PHP</label><br>
+            <input type="checkbox" id="JAVA" name="linguagem" value="Java">
+                <label for="java">Java</label><br>
+            <input type="checkbox" id="PYTHON" name="linguagem" value="Python">
+               <label for="python">Python</label><br>
+
+            <label for="turno"><h4>Escolha um turno:</h4></label>
+            <select name="turno" id="turno">
+            <option value="manha">Manhã</option>
+            <option value="tarde">Tarde</option>
+            <option value="noite">Noite</option>
+            </select>
+
+            <label for="browser"><h4>Escolha uma unidade mais próxima de você:</h4></label>
+            <input list="browsers" name="browser" id="browser">
+            <datalist id="browsers">
+            <option value="Chapecó">
+            <option value="Florianópolis">
+            <option value="Garopaba">
+            <option value="Joenvile">
+            <option value="Xanxerê">
+            </datalist><br><br>
+
+            <button>Enviar</button>
+        </fieldset>
+    </form>
+
+
+</body>
+</html>
