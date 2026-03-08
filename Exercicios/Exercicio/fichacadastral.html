@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ficha Cadastral</title>
+</head>
+<body>
+
+    <h2 align="center">Ficha Cadastral</h2>
+
+    <form>
+        <table width="500" border="0" cellspacing="1" cellpadding="1" align="center">
+            
+            <tr>
+                <td><font face="Arial" size="2">Nome:</font></td>
+                <td colspan="3">
+                    <input type="text" name="nome" size="55">
+                </td>
+            </tr>
+
+            <tr>
+                <td><font face="Arial" size="2">RG:</font></td>
+                <td>
+                    <input type="text" name="rg" size="13">
+                </td>
+                <td align="right"><font face="Arial" size="2">C.P.F.:</font></td>
+                <td>
+                    <input type="text" name="cpf" size="13">
+                </td>
+            </tr>
+
+            <tr>
+                <td><font face="Arial" size="2">Endereço:</font></td>
+                <td colspan="3">
+                    <input type="text" name="endereco" size="55">
+                </td>
+            </tr>
+
+            <tr>
+                <td><font face="Arial" size="2">Sexo:</font></td>
+                <td>
+                        <input type="radio" id="M" name="sexo" value="M">
+                            <label for="M">Masc</label>
+                        <input type="radio" id="F" name="sexo" value="F">
+                            <label for="M">Fem</label>
+                </td>
+                <td align="center"><font face="Arial" size="2">Data nascimento:</font></td>
+                <td>
+                    <input type="date" name="dnasc" size="10">
+                </td>
+            </tr>
+
+            <tr>
+                <td><font face="Arial" size="2">Estado civil</font></td>
+                <td colspan="3">
+                    <input type="radio" name="ec" value="solteiro">
+                    <font face="Arial" size="2">Solteiro</font>
+                    
+                    <input type="radio" name="ec" value="casado">
+                    <font face="Arial" size="2">Casado</font>
+                    
+                    <input type="radio" name="ec" value="viuvo">
+                    <font face="Arial" size="2">Viúvo</font>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="4" align="center">
+                    <br>
+                    <input type="reset" value="Limpar Dados">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

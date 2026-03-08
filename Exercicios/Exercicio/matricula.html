@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>matricula</title>
+</head>
+<body>
+    <form action="/action_page.html">
+        <fieldset>
+            <legend><h4>Matrícula</h4></legend>
+
+            <label for="login"><h4>Nome Completo:</h4></label><br>
+            <input type="login" id="login" name="login" maxlength="50" required><br>
+
+            <h4>Data de nascimento:</h4>    
+            <input type="date" required>
+
+            <h4>Email:</h4>    
+            <input type="email" required>
+
+            <h4>Telefone:</h4>  
+            <input type="tel" maxlength="2" placeholder="(49)" style="width: 25px; height: 15px;" required>  
+            <input type="tel" maxlength="8" placeholder="9999-9999" required>
+
+            <h4>Turno:</h4>
+            <input type="radio" id="Matutino" name="turno" value="M">
+                <label for="M">Matutino</label>
+
+            <input type="radio" id="Vesp" name="turno" value="V">
+                <label for="V">Vespertino</label>
+
+            <input type="radio" id="Not" name="turno" value="N">
+                <label for="N">Noturno</label>
+
+
+            <h4>Atividades extra-curriculares:</h4>
+            <input type="checkbox" id="T" name="Atvd" value="T">
+                <label for="T">Teatro</label><br>
+
+            <input type="checkbox" id="M" name="Atvd" value="M">
+                <label for="M">Música</label><br>
+
+           <input type="checkbox" id="B" name="Atvd" value="B">
+               <label for="B">Ballet</label><br>
+
+            <input type="checkbox" id="P" name="Atvd" value="P">
+               <label for="P">Pintura</label><br>
+
+            <input type="checkbox" id="J" name="Atvd" value="J">
+                <label for="J">Judô</label><br>
+
+            <input type="checkbox" id="F" name="Atvd" value="F">
+                <label for="F">Futebol</label><br> 
+
+           <button><a href="sucesso.html">Enviar</a></button>
+        </fieldset>
+    </form>
+
+
+</body>
+</html>
