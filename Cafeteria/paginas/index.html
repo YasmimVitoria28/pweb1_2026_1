@@ -11,30 +11,51 @@
   <body>
     <header class="cabecalho"> <!--HEADER-->
       <nav>
-        <img src="../img/logo.jpg">
-        <a href="cafe.html">Cafés</a>
-        <a href="sobre.html">Sobre Nós</a>
-        <a href="contato.html">Contato</a>
+        <img src="../img/logo.jpg" class="logo">
+        <card><a href="cafe.html">
+            <img src="../img/produtos.jpeg" class="capa"></a></card>
+        <card><a href="sobre.html">
+            <img src="../img/sobrenos.jpeg" class="capa"></a></card>
+        <card><a href="contato.html">
+            <img src="../img/telefone.jpeg" class="capa"></a></card>
+        </a></card>
       </nav>
     </header>
 
-    <main class="corpo"> <!--MAIN-->
-        <article class="coments"> <!--ARTICLE-->
-            <section>"O Capuccino é muito cremoso e saboroso. Nota 10"</section> <!--SECTIONS-->
-            <section>"O Latte de Pistache é o meu favorito"</section>
-            <section>"O melhor café da cidade!"</section>
+<main class="corpo">
+    <article class="coments">
+        <div class="carrousel">
+            <section class="slide">
+                <img src="../img/capuccino.webp" alt="Café">
+                <p>"O Capuccino é muito cremoso e saboroso. Nota 10"</p>
+            </section>
+            <section class="slide">
+                <img src="../img/lattepistache.webp" alt="Café">
+                <p>"O Latte de Pistache é o meu favorito"</p>
+            </section>
+            <section class="slide">
+                <img src="../img/produtos.jpeg" alt="Café">
+                <p>"O melhor café da cidade!"</p>
+            </section>
+        </div>
 
-        <!--SUGESTÕES DE PEDIDO-->
-        <aside class="sugestao">
-            <a href="cafe.html">Mocha de Ouro</a>
-        </aside>
+        <div class="sidebar-sugestoes">
+            <aside class="sugestao">
+                <img src="../img/mocha.jpg" class="img-produto-sugestao">
+                    <button class="btn-sugestao">
+                        <a href="cafe.html">Mocha de Ouro</a>
+                </button>
+            </aside>
 
-        <aside class="sugestao">
-            <a href="cafe.html">Capuccino Dourado</a>
-        </aside>
-
-        </article>
-    </main>
+            <aside class="sugestao">
+                <img src="../img/capuccino.webp" class="img-produto-sugestao">
+                    <button class="btn-sugestao">
+                        <a href="cafe.html">Capuccino Dourado</a>
+                    </button>
+            </aside>
+</div>
+    </article>
+</main>
 
     <footer>
         <nav>
