@@ -1,0 +1,63 @@
+/*GERAL*/
+body {
+    background-color: #E8BC73; 
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/*CABEÇALHO*/
+.cabecalho {
+    background-color: #37070E;
+    color: white;
+    padding: 20px;
+}
+
+.cabecalho nav img {
+    width: 300px;       
+    height: auto;       
+    border-radius: 50%;  
+    object-fit: contain; 
+}
+/*----------------------------------------------------------------------------------------*/
+/*INDEX*/
+/*COMENTÁRIOS*/
+.coments {
+    display: grid;
+    grid-template-columns: 7fr 3fr; 
+    gap: 20px;
+    padding: 20px;
+}
+
+.coments-image{
+    width: 150px;
+    height: 150px;
+    border: 3px solid #37070E; 
+
+}
+/*SECTION (CAIXINHA AO REDOR)*/
+section {
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-bottom: 10px;
+    padding: 15px;
+    border: #37070E;
+}
+
+/*SUGESTÃO*/
+.sugestao {
+    background-color: #D4A35D;
+    padding: 15px;
+    border: 1px solid #37070E;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/*TEXTO SUGESTÃO*/
+.sugestao a {
+    text-decoration: none;
+    color: #37070E;
+    font-weight: bold;
+}
+
