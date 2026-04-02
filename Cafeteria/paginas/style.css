@@ -8,7 +8,7 @@ body {
     min-height: 100vh;
 }
 
-/*CABEÇALHO*/
+/*CABEÇALHO-------------------------------------------------------------------*/
 .cabecalho {
     background-color: #37070E;
     padding: 20px;
@@ -23,124 +23,226 @@ body {
 .logo {
     width: 150px;
     height: auto;
-}
-
-card {  
-    display: block;
     cursor: pointer;
-    transition: all 0.3s ease;     
 }
 
-card:hover {
-    transform: scale(1.05);
+/*CARDS--------------------------------------------------------*/
+
+.row {
+    display: flex;            
+    justify-content: center;  
+    gap: 20px;                
+
 }
 
-.capa {
+.card {  
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;  
+    display: flex;
+    flex-direction: column;   
+    align-items: center;      
+    padding: 20px;           
+       
+}
+
+.cardimg {
     width: 200px;
     height: 200px;
-    border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #E8BC73;
+    border: 2px solid #D4A35D;
+    border-radius: 100%;      
 }
 
-/*----------------------------------------------------------------------------------------*/
-/* CARROSSEL DE COMENTARIOS */
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card a {
+    text-decoration: none;
+}
+
+
+/* ARTICLE*/
 .coments {
     display: grid;
     grid-template-columns: 7fr 3fr; 
-    gap: 300px;
+    gap: 40px; 
     padding: 50px;
+    align-items: start;
 }
+
+
+
+
+/* ----------------------------------CARROSSEL-----------------------------------*/
+
 
 .carrousel {
     display: flex;
-    overflow-x: auto; 
-    scroll-snap-type: x mandatory; 
-    scroll-behavior: smooth;
-    gap: 10px;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory; /*arrasta automático*/
     border-radius: 15px;
+    cursor: pointer;
 }
 
-/* esconde a rolagem */
 .carrousel::-webkit-scrollbar {
-    display: none;
+    display: none; /*sem barra de arrastar*/
 }
 
 .slide {
-    flex: 0 0 100%; 
+    flex: 0 0 100%;
+    width: 800px;
+    height: 400px;
     scroll-snap-align: start;
     position: relative;
-    height: 400px;
+
 }
 
-.slide img {
-    width: 100%;
-    height: 100%;
+.imgcarr {
+    width: 800px;
+    height: 400px;
     object-fit: cover;
-    filter: brightness(0.5); 
-    border-radius: 15px;
+    filter: brightness(0.5);
+    border-radius: 20px;
 }
 
 .slide p {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
     color: #ffffff;
     font-weight: bold;
     font-size: 1.8rem;
     text-align: center;
     width: 80%;
     margin: 0;
-    pointer-events: none;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
-/*-------------------------------------------------------*/
-/* CONTAINER DA SUGESTÃO */
+
+/*------------------------SUGESTÃO-----------------------------------------------------------*/
 .sugestao {
-    display: flex;
-    flex-direction: column; /* Empilha os itens verticalmente */
-    align-items: center;    /* Centraliza imagem e botão */
-    gap: 15px;              /* Espaço entre a imagem e o botão */
-    margin-bottom: 30px;    /* Espaço entre um produto e outro */
+    display: flex; /*container pai ajuste*/
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
     background-color: transparent;
 }
-
-/* IMAGEM DO PRODUTO (EM CIMA) */
-.img-produto-sugestao {
+ 
+.imgsugestao {
     width: 100%;
-    max-width: 200px;       /* Limita o tamanho para não estourar a sidebar */
+    max-width: 200px;
     height: 150px;
-    object-fit: cover;      /* Garante que a imagem preencha o espaço sem deformar */
-    border-radius: 20px;    /* Bordas arredondadas na imagem */
+    object-fit: cover; /*para se ajustar ao container pai*/
+    border-radius: 20px;
     border: 2px solid #D4A35D;
 }
-
-/* BOTÃO COM TÍTULO (EMBAIXO) */
-.btn-sugestao {
+ 
+.btnsugestao {
     background-color: #D4A35D;
     border: 2px solid #37070E;
-    border-radius: 50px;    /* Botão arredondado */
+    border-radius: 50px;
     padding: 10px 20px;
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 90%;             /* Ajusta a largura do botão */
+    width: 90%;
 }
-
-.btn-sugestao a {
+ 
+.btnsugestao a {
     text-decoration: none;
     color: #37070E;
     font-weight: bold;
     font-size: 0.9rem;
-    display: block;         /* Faz o link ocupar o botão inteiro */
+    display: block;
 }
-
-/* EFEITO HOVER */
+ 
 .btn-sugestao:hover {
     background-color: #37070E;
-    transform: translateY(-3px); /* Efeito de "levante" ao passar o mouse */
+    transform: translateY(-3px);
+}
+ 
+.btn-sugestao:hover a {
+    color: #ffffff;
 }
 
-.btn-sugestao:hover a {
-    color: #ffffff;         /* Inverte a cor do texto no hover */
+
+
+/*-----------------------------------CAFÉ-------------------------------------------------------------------------*/
+
+.cardapio {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cardapio h1{
+    text-align: center;
+    color: #3e2723; 
+    margin-bottom: 50px;
+    font-size: 2.5rem;
+    border-bottom: 2px solid #D4A35D;
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.cardapiogrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+}
+
+.cafe {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #ccc;
+}
+
+
+.foto {
+    width: 370px;
+    height: 370px;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 2px solid #D4A35D;
+}
+
+.info-item {
+    flex-grow: 1;
+}
+
+.cabecalhoit {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 5px;
+}
+
+.cabecalhoit h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.3rem;
+}
+
+.valor {
+    color: #D4A35D;
+    font-weight: bold;
+    font-size: 1.2rem;
+    white-space: nowrap;
+}
+
+.descricao {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.4;
 }
