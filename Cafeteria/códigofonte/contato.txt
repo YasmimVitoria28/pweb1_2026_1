@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>contato</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+    <body>
+        <header class="cabecalho">
+            <nav>
+            <a href="index.html">
+                <img src="../img/logo.jpg" class="logo">
+            </a>
+            <div class="row">
+                <!--Bootstrap CARD-->
+                <div class="card" style="width: 18rem;">
+                    <a href="cafe.html">
+                        <img src="../img/produtos.jpeg" class="card-img-top cardimg">
+                    </a>
+                    <div class="card-body">
+                    </div>
+                </div>
+
+                <div class="card" style="width: 18rem;">
+                    <a href="sobre.html">
+                        <img src="../img/sobrenos.png" class="card-img-top cardimg">
+                    </a>
+                    <div class="card-body">
+                    </div>
+                </div>
+
+                <div class="card" style="width: 18rem;">
+                    <a href="contato.html">
+                        <img src="../img/telefone.jpeg" class="card-img-top cardimg">
+                    </a>
+                    <div class="card-body">
+                    </div>
+                </div>
+            </div>
+            </nav>
+        </header>
+
+<main class="corpo">
+
+
+        <article class="coments">
+<!--------------FORMULARIO------------------------------------------------------------------>
+        <section class="formularios">
+            <div class="formulario">
+                <h2 class="titulo-formulario">Fale Conosco</h2>
+                <!--NOME-->
+                <div class="mb-3"> <!--margin bottom do bootstrap-->
+                    <a for="inputNome" class="form-a">Nome</a>
+                    <input type="text" class="form-control" placeholder="Seu nome completo">
+                </div>
+
+                <!--EMAIL-->
+                <div class="mb-3">
+                    <a for="inputEmail" class="form-a">E-mail</a>
+                    <input type="email" class="form-control" placeholder="email@exemplo.com">
+                </div>
+
+                <!--MSGM-->
+                <div class="mb-3">
+                    <a for="inputMensagem" class="form-a">Mensagem</a>
+                    <textarea class="form-control" rows="4" placeholder="Conte sobre sua experiência..."></textarea>
+                </div>
+
+                <!-- botão de enviar Bootstrap -->
+                <button type="submit" class="btn btnsugestao btnenviar">Enviar Mensagem</button>
+            </div>
+        </section>
+            <!---------------------------------------MAPA------------------------------------------------------------------>
+
+        <section class="mapas">
+            <div class="mapa">
+                <h2 class="titulo-formulario">Localização</h2>
+                <iframe width="100%" height="100%" src="https://www.openstreetmap.org/export/embed.html?bbox=-52.60
+047376155854%2C-27.138022379277768%2C-52.59748041629792%2C-27.136642727863077&amp;layer=mapnik" style="border: 1px solid black">
+                </iframe>
+                <br/>
+                </div>
+        </section>
+        </article>
+        
+    </main>
+
+<!---FOOTER-->
+<footer class="footer">
+    <nav class="footergrid">
+        <div class="footeritem">
+            <a class="footer-label">Contato</a>
+            <a class="footer-valor">(49) 9 9999-9999</a>
+        </div>
+
+        <div class="linha">|</div>
+
+        <div class="footeritem">
+            <a class="footer-label">Instagram</a>
+            <a href="https://instagram.com/graodeourocafe" class="footer-valor footer-link" target="_blank">@graodeourocafe</a>
+        </div>
+
+    </nav>
+</footer>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
