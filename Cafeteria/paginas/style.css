@@ -63,14 +63,19 @@ body {
 
 .card:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(126, 52, 64, 0.993);
 }
 
 .card a {
     text-decoration: none;
+    color: #d48618;
+    text-align: center;
+    font-weight: bold;
+    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-
-
 /* ARTICLE*/
 .coments {
     display: grid;
