@@ -10,7 +10,7 @@
   </head>
     <body>
         <header class="cabecalho">
-            <nav>
+            <nav class="navbar">
             <a href="index.html">
                 <img src="../img/logo.jpg" class="logo">
             </a>

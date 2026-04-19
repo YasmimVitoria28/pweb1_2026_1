@@ -9,7 +9,7 @@
   </head>
     <body>
         <header class="cabecalho">
-            <nav>
+            <nav class="navbar">
             <a href="index.html">
                 <img src="../img/logo.jpg" class="logo">
             </a>
@@ -77,9 +77,9 @@
         <section class="mapas">
             <div class="mapa">
                 <h2 class="titulo-formulario">Localização</h2>
-                <iframe width="100%" height="100%" src="https://www.openstreetmap.org/export/embed.html?bbox=-52.60
-047376155854%2C-27.138022379277768%2C-52.59748041629792%2C-27.136642727863077&amp;layer=mapnik" style="border: 1px solid black">
-                </iframe>
+                <iframe width="100%" height="100%" src="https://www.openstreetmap.org/export/embed.html?bbox=-52.60079294443131%2C-27.13799612309493%2C-52.59779959917069%2C-27.
+136616471356163&amp;layer=mapnik&amp;marker=-27.137306299353984%2C-52.599296271800995" style="border: 1px solid black"></iframe>
+
                 <br/>
                 </div>
         </section>
