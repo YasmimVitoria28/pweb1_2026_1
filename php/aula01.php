@@ -53,9 +53,46 @@
 ///////////////////////////////////////////////////////////////////
         echo"<br>";
         $carro = ["modelo"=>"Mustang", "cor"=>"Red", "ano"=>1976 ];
-            echo $carro['modelo'] . "-" .$carro['cor'];
+            echo $carro['modelo'] ."-" .$carro['cor'];
             
             echo "<br>";
+
+///////////////////////////////////////////////////////////////////
+            echo"<br>";
+        $carros =[
+                ["modelo"=>"Mustang", "cor"=>"Red", "ano"=>1976 ],
+                ["modelo"=>"Del Rey", "cor"=>"Branco", "ano"=>1980 ],
+                ];
+
+                echo $carros[0] ['modelo'] ."-" .$carros[0]['cor'];
+                echo "<br>";
+
+        foreach ($carros as $carro) {
+                echo "<br>";
+        foreach ($carro as $item) {
+                echo "Modelo:" .$item['modelo'] ."Ano" .$item['ano'];
+            };
+        }
+            echo "<br>";
+
+///////////////////////////////////////////////////////////////////
+ echo"<br>";
+        $carros =[
+                ["modelo"=>"Mustang", "cor"=>"Red", "ano"=>1976 ],
+                ["modelo"=>"Del Rey", "cor"=>"Branco", "ano"=>1980 ],
+                ];
+
+                echo $carros[0] ['modelo'] ."-" .$carros[0]['cor'];
+                echo "<br>";
+
+        foreach ($carros as $carro) {
+                echo "<br>";
+        foreach ($carro as $item) {
+                echo "Modelo:" .$item['modelo'] ."Ano" .$item['ano'];
+            };
+        }
+            echo "<br>";
+
     ?>
 
     <p> Meu site Mustang Red <?= $carro['modelo'] . "- Ano:" . $carro['ano'] ?> </p>
