@@ -34,6 +34,15 @@ class db
         }
     }
 
+    public function all ()
+    {
+        $sql = "SELECT * FROM $this->table_name";
+        $sql =  $this->conn->prepare($sql);
+        $sql ->execute();
+
+
+    }
+
     //INSERT INTO `db_pweb1_2026_1`.`aluno` (`nome`, `email`) VALUES ('Yasmim', 'yasmim@aluno.vsr07aluno.ifsc.edu.br');
 
     public function store($dados)
