@@ -1,36 +1,92 @@
 <?php
-/**
- * Classe de Conexão com o Banco de Dados (MySQLi)
- * Projeto: Cafeteria - PWEB 1
- */
-class DB {
-    // Configurações de acesso ao servidor local Laragon
-    private $host = "127.0.0.1";       // IP do servidor local (localhost)
-    private $user = "root";            // Usuário padrão do Laragon
-    private $password = "";            // Senha padrão do Laragon (vazia)
-    private $database = "cafeteria";   // Nome do banco de dados que criamos
-    private $con;                      // Variável que guardará a conexão ativa
+class db
+{
+    private $host       = 'localhost';
+    private $user       = 'root';
+    private $password   = '';
+    private $port       = '3306';
+    private $dbname     = 'db_pweb1_2026_1';
+    private $table_name;
+    private $conn;
 
-    /**
-     * Método responsável por estabelecer a conexão com o banco de dados
-     * @return mysqli Retorna o objeto de conexão ativa
-     */
-    public function conectar() {
-        // Inicializa a conexão utilizando a extensão nativa MySQLi do PHP
-        $this->con = new mysqli($this->host, $this->user, $this->password, $this->database);
+    public function __construct($table_name)
+    {
+        $this->table_name = $table_name;
+        $this->conn = $this->connect();
+    }
 
-        // Verifica se ocorreu algum erro durante a tentativa de conexão
-        if ($this->con->connect_error) {
-            // Se falhar, interrompe a execução do sistema e exibe o erro
-            die("Erro crítico de Conexão: " . $this->con->connect_error);
+    private function connect()
+    {
+        try {
+            return new PDO(
+                "mysql:host=$this->host;dbname=$this->dbname;port=$this->port;charset=utf8",
+                $this->user,
+                $this->password,
+                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+            );
+        } catch (PDOException $e) {
+            die('Erro na conexão: ' . $e->getMessage());
         }
+    }
 
-        // Define o charset para utf8mb4 para garantir que acentos (á, é) e o 'ç' 
-        // sejam salvos e lidos corretamente sem caracteres estranhos
-        $this->con->set_charset("utf8mb4");
+    // SELECT * FROM tabela
+    public function index()
+    {
+        $sql = "SELECT * FROM $this->table_name";
+        $st  = $this->conn->prepare($sql);
+        $st->execute();
+        return $st->fetchAll(PDO::FETCH_CLASS);
+    }
 
-        // Retorna a conexão pronta para ser utilizada nas queries (consultas)
-        return $this->con;
+    // SELECT * FROM tabela WHERE id = ?
+    public function find($id)
+    {
+        $sql = "SELECT * FROM $this->table_name WHERE id = ?";
+        $st  = $this->conn->prepare($sql);
+        $st->execute([$id]);
+        return $st->fetchObject();
+    }
+
+    // INSERT INTO tabela (campos) VALUES (?)
+    public function store($dados)
+    {
+        $campos     = implode(',', array_keys($dados));
+        $marcadores = implode(',', array_fill(0, count($dados), '?'));
+        $valores    = array_values($dados);
+
+        $sql = "INSERT INTO $this->table_name ($campos) VALUES ($marcadores)";
+        try {
+            $st = $this->conn->prepare($sql);
+            $st->execute($valores);
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao inserir: " . $e->getMessage());
+        }
+    }
+
+    // SELECT * FROM tabela WHERE campo LIKE '%valor%'
+    public function search($dados)
+    {
+        $campo = $dados['tipo'];
+        $valor = $dados['valor'];
+        $sql = "SELECT * FROM $this->table_name WHERE $campo LIKE ?";
+        try {
+            $st = $this->conn->prepare($sql);
+            $st->execute(["%$valor%"]);
+            return $st->fetchAll(PDO::FETCH_CLASS);
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao buscar: " . $e->getMessage());
+        }
+    }
+
+    // DELETE FROM tabela WHERE id = ?
+    public function destroy($id)
+    {
+        $sql = "DELETE FROM $this->table_name WHERE id = ?";
+        try {
+            $st = $this->conn->prepare($sql);
+            $st->execute([$id]);
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao deletar: " . $e->getMessage());
+        }
     }
 }
-?>
