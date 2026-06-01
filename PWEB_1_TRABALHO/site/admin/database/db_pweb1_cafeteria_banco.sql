@@ -1,29 +1,36 @@
--- --------------------------------------------------------
--- Servidor:                     localhost
--- Versão do servidor:           8.0.30 - MySQL Community Server - GPL
--- OS do Servidor:               Win64
--- HeidiSQL Versão:              12.1.0.6537
--- --------------------------------------------------------
+<?php
+/**
+ * Classe de Conexão com o Banco de Dados (MySQLi)
+ * Projeto: Cafeteria - PWEB 1
+ */
+class DB {
+    // Configurações de acesso ao servidor local Laragon
+    private $host = "127.0.0.1";       // IP do servidor local (localhost)
+    private $user = "root";            // Usuário padrão do Laragon
+    private $password = "";            // Senha padrão do Laragon (vazia)
+    private $database = "cafeteria";   // Nome do banco de dados que criamos
+    private $con;                      // Variável que guardará a conexão ativa
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+    /**
+     * Método responsável por estabelecer a conexão com o banco de dados
+     * @return mysqli Retorna o objeto de conexão ativa
+     */
+    public function conectar() {
+        // Inicializa a conexão utilizando a extensão nativa MySQLi do PHP
+        $this->con = new mysqli($this->host, $this->user, $this->password, $this->database);
 
--- Exportação de dados foi desmarcado.
+        // Verifica se ocorreu algum erro durante a tentativa de conexão
+        if ($this->con->connect_error) {
+            // Se falhar, interrompe a execução do sistema e exibe o erro
+            die("Erro crítico de Conexão: " . $this->con->connect_error);
+        }
 
--- Exportação de dados foi desmarcado.
+        // Define o charset para utf8mb4 para garantir que acentos (á, é) e o 'ç' 
+        // sejam salvos e lidos corretamente sem caracteres estranhos
+        $this->con->set_charset("utf8mb4");
 
--- Exportação de dados foi desmarcado.
-
--- Exportação de dados foi desmarcado.
-
-/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
+        // Retorna a conexão pronta para ser utilizada nas queries (consultas)
+        return $this->con;
+    }
+}
+?>
