@@ -2,22 +2,20 @@
 
 class db
 {
-
     private $host     = 'localhost';
     private $user     = 'root';
     private $password = '';
     private $port     = '3306';
     private $dbname   = 'db_pweb1_2026_1';
     private $table_name;
-    private $conn; // conexão fica guardada para reutilizar
+    private $conn; 
 
     public function __construct($table_name)
     {
         $this->table_name = $table_name;
-        $this->conn = $this->connect(); // cria a conexão uma única vez
+        $this->conn = $this->connect(); 
     }
 
-    // Método privado: apenas a própria classe pode chamar
     private function connect()
     {
         try {
@@ -34,16 +32,13 @@ class db
         }
     }
 
-    public function all ()
+    public function all()
     {
         $sql = "SELECT * FROM $this->table_name";
-        $sql =  $this->conn->prepare($sql);
-        $sql ->execute();
-
-
+        $st = $this->conn->prepare($sql);
+        $st->execute();
+        return $st->fetchAll(PDO::FETCH_OBJ);
     }
-
-    //INSERT INTO `db_pweb1_2026_1`.`aluno` (`nome`, `email`) VALUES ('Yasmim', 'yasmim@aluno.vsr07aluno.ifsc.edu.br');
 
     public function store($dados)
     {
@@ -60,7 +55,6 @@ class db
         }
         $sql = "INSERT INTO $this->table_name ($campos) VALUES ($marcadores)";
 
-
         try {
             $st = $this->conn->prepare($sql);
             $st->execute($vetorData);
@@ -68,4 +62,56 @@ class db
             var_dump("Erro ao inserir", $e->getMessage());
         }
     }
+
+    public function findBy($campo, $valor)
+    {
+        $sql = "SELECT * FROM $this->table_name WHERE $campo = ? LIMIT 1";
+
+        try {
+            $st = $this->conn->prepare($sql);
+            $st->execute([$valor]);
+            return $st->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            var_dump("Erro ao buscar registro", $e->getMessage());
+            return false;
+        }
+    }
+
+    public function find($id)
+    {
+        $sql = "SELECT * FROM $this->table_name WHERE id = ? LIMIT 1";
+
+        try {
+            $st = $this->conn->prepare($sql);
+            $st->execute([$id]);
+            return $st->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            var_dump("Erro ao buscar por ID", $e->getMessage());
+            return false;
+        }
+    }
+
+    public function update($id, $dados)
+{
+    $campos = "";
+    $vetorData = [];
+    $sep = "";
+
+    foreach ($dados as $campo => $valor) {
+        $campos .= $sep . "$campo = ?";
+        $vetorData[] = $valor;
+        $sep = ", ";
+    }
+    $vetorData[] = $id; // id vai no final, para o WHERE
+
+    $sql = "UPDATE $this->table_name SET $campos WHERE id = ?";
+
+    try {
+        $st = $this->conn->prepare($sql);
+        $st->execute($vetorData);
+    } catch (PDOException $e) {
+        var_dump("Erro ao atualizar", $e->getMessage());
+    }
 }
+}
+

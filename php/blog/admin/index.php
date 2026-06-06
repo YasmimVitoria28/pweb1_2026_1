@@ -5,7 +5,7 @@ include_once './database/db.class.php';
 
 //instanciar um objt da classe DB
 
-$conn = new db("aluno");
+$conn = new db("usuario");
 
 $dados = [
     'nome' => "Yasmim",
