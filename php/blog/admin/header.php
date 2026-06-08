@@ -17,7 +17,7 @@
             <script>
             setTimeout(()=>window.location.href='$page', 1500);
             </script>"
-        }
+        }//erroooo
 
         function actionMessage($success, $error){
             if(!empty($success)){
@@ -36,7 +36,7 @@
                     echo $error;
                 }
             echo "</ul></div>"
-        }
+        }//erroooo
 
         function getFormValue($field){
             echo isset($_POST['nome']) ? $_POST['nome'] : '';
