@@ -3,9 +3,6 @@ include __DIR__ . '/../../../header.php';
 include '../database/db.class.php';
 $db = new db('produto');
 
-// ==========================================
-// MÉTODO EXCLUIR (IGUAL AO AVALIACAOlist.PHP)
-// ==========================================
 if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
     $host = "localhost";
     $banco = "cafeteria";
