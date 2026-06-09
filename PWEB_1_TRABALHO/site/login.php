@@ -51,37 +51,138 @@ if (!empty($_POST)) {
 }
 ?>
 
-<div class="row justify-content-center mt-5">
-    <div class="col-md-5">
-        <div class="card shadow">
-            <div class="card-body p-4">
-                <h3 class="mb-4 text-center">Login</h3>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Grão de Ouro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        body {
+            background-color: #1f0408;
+            color: #ffffff;
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .form-container {
+            background-color: #2a0810;
+            border: 1px solid #D4A35D;
+            border-radius: 15px;
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .title-coffee {
+            color: #d48618;
+            font-weight: bold;
+        }
 
-                <?php actionMessage($success, $actionError); ?>
-                <?php showValidationError($erros); ?>
+        .form-control-coffee {
+            background-color: #1f0408 !important;
+            border: 1px solid #C2933C !important;
+            color: #ffffff !important;
+        }
 
-                <form action="login.php" method="post">
+        .form-control-coffee:focus {
+            border-color: #D4A35D !important;
+            box-shadow: 0 0 0 0.25rem rgba(212, 163, 93, 0.25) !important;
+        }
 
-                    <div class="mb-3">
-                        <label for="email">E-mail</label>
-                        <input type="email" name="email" class="form-control"
-                            value="<?php echo getFormValue($data, 'email'); ?>">
-                    </div>
+        .form-label-coffee {
+            color: #E8BC73;
+            font-weight: 500;
+        }
 
-                    <div class="mb-3">
-                        <label for="senha">Senha</label>
-                        <input type="password" name="senha" class="form-control">
-                    </div>
+        .btn-coffee-primary {
+            background-color: #D4A35D !important;
+            color: #37070E !important;
+            font-weight: bold;
+            border: 1px solid #D4A35D;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-coffee-primary:hover {
+            background-color: #ffffff !important;
+            color: #2a0810 !important;
+            border-color: #ffffff;
+            transform: translateY(-1px);
+        }
 
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success">Entrar</button>
-                        <a href="./registrar.php" class="btn btn-outline-primary">Criar conta</a>
-                    </div>
+        .btn-coffee-outline {
+            background-color: transparent;
+            color: #E8BC73;
+            border: 1px solid #D4A35D;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
 
-                </form>
-            </div>
+        .btn-coffee-outline:hover {
+            background-color: #37070E;
+            color: #ffffff;
+            border-color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        hr {
+            background-color: #D4A35D;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container d-flex justify-content-center">
+    <div class="form-container shadow">
+        
+        <div class="text-center mb-4">
+            <i class="bi bi-cup-hot-fill fs-2" style="color: #D4A35D;"></i>
+            <h2 class="title-coffee mt-2">Acessar Conta</h2>
+            <p class="text-light opacity-75 small">Insira suas credenciais para entrar no painel</p>
         </div>
+
+        <div class="mb-3">
+            <?php actionMessage($success, $actionError); ?>
+            <?php showValidationError($erros); ?>
+        </div>
+
+        <form action="login.php" method="post">
+
+            <div class="mb-3">
+                <label for="email" class="form-label form-label-coffee">E-mail</label>
+                <input type="email" name="email" id="email" class="form-control form-control-coffee"
+                       value="<?php echo getFormValue($data, 'email'); ?>" placeholder="nome@exemplo.com">
+            </div>
+
+            <div class="mb-4">
+                <label for="senha" class="form-label form-label-coffee">Senha</label>
+                <input type="password" name="senha" id="senha" class="form-control form-control-coffee" placeholder="Sua senha">
+            </div>
+
+            <hr class="mb-4">
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-coffee-primary py-2">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+                </button>
+                <a href="./registrar.php" class="btn btn-coffee-outline py-2">
+                    <i class="bi bi-person-plus me-2"></i>Não tem conta? Criar uma
+                </a>
+            </div>
+
+        </form>
     </div>
 </div>
 
-<?php //include './footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
