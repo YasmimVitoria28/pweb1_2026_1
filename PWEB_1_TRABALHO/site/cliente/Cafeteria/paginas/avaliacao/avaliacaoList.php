@@ -27,7 +27,7 @@ try {
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Avaliações de Produtos Cadastradas</h2>
-            <a href="../contato.html" class="btn btn-primary">Nova Avaliação</a>
+            <a href="../contato.php" class="btn btn-primary">Nova Avaliação</a>
         </div>
 
         <?php if (count($avaliacoes) > 0): ?>

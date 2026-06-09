@@ -59,11 +59,6 @@ if (!empty($_POST)) {
       </div>
 
       <div class="col-6 mb-2">
-         <label for="nome">Nível de acesso</label>
-         <input type="text" name="nome" class="form-control" value="<?php echo getFormValue($_POST, 'nivel_acesso'); ?>">
-      </div>
-
-      <div class="col-6 mb-2">
          <label for="nome">Login</label>
          <input type="text" name="nome" class="form-control" value="<?php echo getFormValue($_POST, 'login'); ?>">
       </div>

@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -10,29 +8,103 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <style>
+
         body {
-            background-color: #f8f9fa;
-        }
-        .card-admin {
-            transition: transform 0.2s;
-            border: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .card-admin:hover {
-            transform: translateY(-5px);
-        }
-        .sidebar {
-            background-color: #343a40;
+            background-color: #1f0408;
+            color: #ffffff;
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
-            color: white;
         }
+        
+        .sidebar {
+            background-color: #2a0810;
+            min-height: 100vh;
+            color: #E8BC73;
+            border-right: 1px solid #D4A35D;
+        }
+        
+        .sidebar h5 {
+            color: #d48618;
+            font-weight: bold;
+        }
+
         .sidebar a {
-            color: rgba(255,255,255,0.8);
+            color: #E8BC73;
             text-decoration: none;
+            transition: all 0.3s ease;
         }
+        
         .sidebar a:hover {
-            color: white;
-            background-color: rgba(255,255,255,0.1);
+            color: #ffffff;
+            background-color: #37070E;
+        }
+
+        .sidebar a.active-coffee {
+            background-color: #D4A35D !important;
+            color: #37070E !important;
+            font-weight: bold;
+        }
+        
+        /* CARDS DO PAINEL */
+        .card-admin {
+            background-color: #2a0810 !important;
+            border: 1px solid #D4A35D !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card-admin:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(126, 52, 64, 0.993);
+        }
+
+        .card-title-coffee {
+            color: #aaaaaa;
+        }
+
+        .btn-link-coffee {
+            color: #D4A35D;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .btn-link-coffee:hover {
+            color: #ffffff;
+        }
+
+        /* STATUS E BORDA DO TITULO */
+        .border-bottom-coffee {
+            border-bottom: 2px solid #d48618 !important;
+        }
+
+        .title-coffee {
+            color: #d48618;
+        }
+
+        .card-status {
+            background-color: #37070E !important;
+            border: 1px solid #C2933C !important;
+            color: #E8BC73;
+        }
+
+        .card-status-header {
+            background-color: #2a0810 !important;
+            color: #d48618;
+            font-weight: bold;
+            border-bottom: 1px solid #C2933C !important;
+        }
+
+        .alert-coffee {
+            background-color: #1f0408 !important;
+            border: 1px solid #D4A35D !important;
+            color: #ffffff;
+        }
+
+        hr {
+            background-color: #D4A35D;
+            opacity: 0.3;
         }
     </style>
 </head>
@@ -48,109 +120,104 @@
             <hr>
             <ul class="nav flex-column gap-2">
                 <li class="nav-item">
-                    <a href="#" class="nav-link active rounded p-2 bg-primary text-white">
+                    <a href="#" class="nav-link active-coffee rounded p-2">
                         <i class="bi bi-speedometer2 me-2"></i> Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="paginas/post/postList.php" class="nav-link rounded p-2">
-                        <i class="bi bi-file-earmark-post me-2"></i> Posts
+                    <a href="./post/PostList.php" class="nav-link rounded p-2">
+                        <i class="bi bi-file-earmark-post me-2" style="color: #D4A35D;"></i> Pedidos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="paginas/produto/produtoList.php" class="nav-link rounded p-2">
-                        <i class="bi bi-cup-hot me-2"></i> Produtos
+                    <a href="./produto/ProdutoList.php" class="nav-link rounded p-2">
+                        <i class="bi bi-cup-hot me-2" style="color: #D4A35D;"></i> Produtos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="paginas/usuario/usuarioList.php" class="nav-link rounded p-2">
-                        <i class="bi bi-people me-2"></i> Usuários
+                    <a href="./usuario/UsuarioList.php" class="nav-link rounded p-2">
+                        <i class="bi bi-people me-2" style="color: #D4A35D;"></i> Usuários
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="paginas/avaliacao/avaliacaoList.php" class="nav-link rounded p-2">
-                        <i class="bi bi-star me-2"></i> Avaliações
+                    <a href="../cliente/Cafeteria/paginas/avaliacao/avaliacaoList.php" class="nav-link rounded p-2">
+                        <i class="bi bi-star me-2" style="color: #D4A35D;"></i> Avaliações
                     </a>
                 </li>
             </ul>
             <hr>
-            <div class="d-grid">
-                <a href="logout.php" class="btn btn-sm btn-danger"><i class="bi bi-box-arrow-right me-1"></i> Sair</a>
-            </div>
-        </nav>
-
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Painel de Controle</h1>
-                <div class="text-secondary">Bem-vindo de volta, Admin!</div>
+        </nav> <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom-coffee">
+                <h1 class="h2 title-coffee">Painel de Controle</h1>
+                <div class="text-light opacity-75">Bem-vindo</div>
             </div>
 
             <div class="row g-4 mb-4">
                 <div class="col-12 col-sm-6 col-xl-3">
-                    <div class="card card-admin h-100 bg-white">
+                    <div class="card card-admin h-100">
                         <div class="card-body d-flex align-items-center">
-                            <div class="p-3 bg-primary bg-opacity-10 text-primary rounded-circle me-3">
+                            <div class="p-3 bg-opacity-10 rounded-circle me-3" style="background-color: rgba(212, 163, 93, 0.2); color: #D4A35D;">
                                 <i class="bi bi-file-earmark-post fs-3"></i>
                             </div>
                             <div>
-                                <h6 class="card-title text-muted mb-0">Gerenciar Posts</h6>
-                                <a href="paginas/post/postList.php" class="btn btn-sm btn-link p-0 mt-1">Acessar Módulo &rarr;</a>
+                                <h6 class="card-title card-title-coffee mb-0">Gerenciar Pedidos</h6>
+                                <a href="./post/PostList.php" class="btn btn-sm btn-link-coffee p-0 mt-1">Acessar Pedidos &rarr;</a>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-12 col-sm-6 col-xl-3">
-                    <div class="card card-admin h-100 bg-white">
+                    <div class="card card-admin h-100">
                         <div class="card-body d-flex align-items-center">
-                            <div class="p-3 bg-success bg-opacity-10 text-success rounded-circle me-3">
+                            <div class="p-3 bg-opacity-10 rounded-circle me-3" style="background-color: rgba(212, 163, 93, 0.2); color: #D4A35D;">
                                 <i class="bi bi-cup-hot fs-3"></i>
                             </div>
                             <div>
-                                <h6 class="card-title text-muted mb-0">Produtos (Cardápio)</h6>
-                                <a href="paginas/produto/produtoList.php" class="btn btn-sm btn-link p-0 mt-1 text-success">Acessar Módulo &rarr;</a>
+                                <h6 class="card-title card-title-coffee mb-0">Produtos (Cardápio)</h6>
+                                <a href="./produto/ProdutoList.php" class="btn btn-sm btn-link-coffee p-0 mt-1">Acessar Cardápio &rarr;</a>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-12 col-sm-6 col-xl-3">
-                    <div class="card card-admin h-100 bg-white">
+                    <div class="card card-admin h-100">
                         <div class="card-body d-flex align-items-center">
-                            <div class="p-3 bg-info bg-opacity-10 text-info rounded-circle me-3">
+                            <div class="p-3 bg-opacity-10 rounded-circle me-3" style="background-color: rgba(212, 163, 93, 0.2); color: #D4A35D;">
                                 <i class="bi bi-people fs-3"></i>
                             </div>
                             <div>
-                                <h6 class="card-title text-muted mb-0">Usuários do Sistema</h6>
-                                <a href="paginas/usuario/usuarioList.php" class="btn btn-sm btn-link p-0 mt-1 text-info">Acessar Módulo &rarr;</a>
+                                <h6 class="card-title card-title-coffee mb-0">Usuários do Sistema</h6>
+                                <a href="./usuario/UsuarioList.php" class="btn btn-sm btn-link-coffee p-0 mt-1">Acessar Cadastros &rarr;</a>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-12 col-sm-6 col-xl-3">
-                    <div class="card card-admin h-100 bg-white">
+                    <div class="card card-admin h-100">
                         <div class="card-body d-flex align-items-center">
-                            <div class="p-3 bg-warning bg-opacity-10 text-warning rounded-circle me-3">
+                            <div class="p-3 bg-opacity-10 rounded-circle me-3" style="background-color: rgba(212, 163, 93, 0.2); color: #D4A35D;">
                                 <i class="bi bi-star fs-3"></i>
                             </div>
                             <div>
-                                <h6 class="card-title text-muted mb-0">Avaliações Recebidas</h6>
-                                <a href="paginas/avaliacao/avaliacaoList.php" class="btn btn-sm btn-link p-0 mt-1 text-warning">Acessar Módulo &rarr;</a>
+                                <h6 class="card-title card-title-coffee mb-0">Avaliações Recebidas</h6>
+                                <a href="../cliente/Cafeteria/paginas/avaliacao/avaliacaoList.php" class="btn btn-sm btn-link-coffee p-0 mt-1">Acessar Avaliações &rarr;</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white font-weight-bold">
-                    <i class="bi bi-info-circle me-2 text-primary"></i>Status do Sistema
+            <div class="card card-status shadow-sm">
+                <div class="card-header card-status-header">
+                    <i class="bi bi-info-circle me-2"></i>Status do Sistema
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Utilize o menu lateral ou os cartões acima para inserir, editar, listar ou remover qualquer registro da Cafeteria Grão de Ouro.</p>
-                    <div class="alert alert-light border d-inline-block">
-                        <i class="bi bi-hdd-network me-2 text-success"></i> Banco de Dados Conectado: <strong>cafeteria</strong>
+                    <p class="card-text" style="color: #ffffff;">Utilize o menu lateral ou os cartões acima para inserir, editar, listar ou remover qualquer registro da Cafeteria Grão de Ouro.</p>
+                    <div class="alert alert-coffee border d-inline-block m-0">
+                        <i class="bi bi-hdd-network me-2" style="color: #D4A35D;"></i> Banco de Dados Conectado: <strong style="color: #d48618;">cafeteria</strong>
                     </div>
                 </div>
             </div>

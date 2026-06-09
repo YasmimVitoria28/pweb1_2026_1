@@ -11,7 +11,6 @@ try {
     die("Erro na conexão: " . $e->getMessage());
 }
 
-// ----------------- PROCESSAMENTO DE AÇÕES (C-U-D) -----------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
 
@@ -23,9 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $comentario = !empty($_POST['comentario']) ? $_POST['comentario'] : null;
 
         if (empty($id)) {
-            // CREATE
+
 try {
-    // Código do seu INSERT
     $stmt = $pdo->prepare("INSERT INTO avaliacao (pedido_id, produto_id, nota, comentario) VALUES (?, ?, ?, ?)");
     $stmt->execute([$pedido_id, $produto_id, $nota, $comentario]);
 } catch (PDOException $e) {
