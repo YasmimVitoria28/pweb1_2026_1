@@ -1,12 +1,9 @@
 <?php
-// contato.php - Página de contato e avaliação de produtos
 session_start();
 
-// Verificar se há mensagem de feedback da sessão
 $mensagem_sucesso = $_SESSION['mensagem_sucesso'] ?? '';
 $mensagem_erro = $_SESSION['mensagem_erro'] ?? '';
 
-// Limpar mensagens da sessão após exibir
 unset($_SESSION['mensagem_sucesso']);
 unset($_SESSION['mensagem_erro']);
 ?>
@@ -20,6 +17,16 @@ unset($_SESSION['mensagem_erro']);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./style.css" />
     <style>
+        /* Define a cor das letras solicitada de forma global */
+        body {
+            color: #D4A35D;
+        }
+
+        /* Garante que os títulos, labels e textos secundários sigam o padrão de cor */
+        h2, h3, .form-label, .footer-label, .text-muted, p strong {
+            color: #D4A35D !important;
+        }
+
         .alert-custom {
             position: fixed;
             top: 20px;
@@ -51,7 +58,6 @@ unset($_SESSION['mensagem_erro']);
     </style>
 </head>
 <body>
-    <!-- Mensagens de feedback -->
     <?php if ($mensagem_sucesso): ?>
         <div class="alert alert-success alert-dismissible fade show alert-custom" role="alert">
             <strong>✓ Sucesso!</strong> <?= htmlspecialchars($mensagem_sucesso) ?>
@@ -108,7 +114,6 @@ unset($_SESSION['mensagem_erro']);
                     <form action="avaliacao/avaliacaoForm.php" method="POST" id="formAvaliacao">
                         <input type="hidden" name="acao" value="salvar">
                         
-                        <!-- Proteção CSRF simples -->
                         <input type="hidden" name="token" value="<?= session_id() ?>">
 
                         <div class="mb-3">
@@ -218,7 +223,6 @@ unset($_SESSION['mensagem_erro']);
         </div>
     </footer>
 
-    <!-- JavaScript para feedback visual -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Feedback visual ao enviar formulário

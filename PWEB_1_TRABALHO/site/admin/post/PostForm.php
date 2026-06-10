@@ -43,9 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mensagem = "<div class='alert alert-success'>Pedido atualizado com sucesso!</div>";
         }
     }
-}
+} 
 ?>
-
+<body>
+<header>
+    <button class="btn btn-primary position-fixed" style="left: 20px; top: 50%; transform: translateY(-50%); z-index: 1030;" onclick="history.back()"><!--voltar tela anterior-->
+        &larr; Voltar
+    </button>
+</header>
+</body>
 <div class="container mt-4">
     <h2><?= $id ? "Editar Pedido" : "Novo Pedido" ?></h2>
     <?= $mensagem; ?>

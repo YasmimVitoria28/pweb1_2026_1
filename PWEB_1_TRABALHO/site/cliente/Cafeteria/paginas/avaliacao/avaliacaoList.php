@@ -33,6 +33,14 @@ $busca = $_GET['busca'] ?? '';
 $avaliacoes = $db->all();
 ?>
 
+<body>
+<header>
+    <button class="btn btn-primary position-fixed" style="left: 20px; top: 50%; transform: translateY(-50%); z-index: 1030;" onclick="history.back()"><!--voltar tela anterior-->
+        &larr; Voltar
+    </button>
+</header>
+</body>
+
 <div class="container mt-4">
     <h2>Avaliações de Produtos Cadastradas</h2>
     

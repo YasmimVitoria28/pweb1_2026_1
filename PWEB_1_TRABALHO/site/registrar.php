@@ -51,7 +51,7 @@ if (!empty($_POST)) {
 
                 $db->store($dados);
                 $success = "Cadastro realizado com sucesso!";
-                redirect('../../login.php');
+                redirect('./login.php');
             }
         }
     } catch (Exception $e) {
@@ -155,9 +155,20 @@ if (!empty($_POST)) {
             background-color: #D4A35D;
             opacity: 0.3;
         }
+        
     </style>
 </head>
 <body>
+<header>
+    <div class="wrapper-back-coffee">
+            <a href="../index.php" class="btn btn-back-coffee shadow-sm">
+                <i class="bi bi-arrow-left-circle me-2"></i>Voltar ao Início
+            </a>
+        </div>
+
+        <div class="container">
+            <div class="row">
+</header>
 
 <div class="container d-flex justify-content-center py-5">
     <div class="form-container shadow">
@@ -218,6 +229,7 @@ if (!empty($_POST)) {
         </form>
     </div>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

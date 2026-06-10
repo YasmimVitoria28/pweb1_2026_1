@@ -34,6 +34,15 @@ $db = new db('usuario');
 $dados = $db->all(); 
 ?>
 
+<body>
+<header>
+    <button class="btn btn-primary position-fixed" style="left: 20px; top: 50%; transform: translateY(-50%); z-index: 1030;" onclick="history.back()"><!--voltar tela anterior-->
+        &larr; Voltar
+    </button>
+</header>
+</body>
+
+
 <div class="container mt-4">
     <div class="row mb-3">
         <div class="col">

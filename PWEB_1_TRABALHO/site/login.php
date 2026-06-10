@@ -141,6 +141,16 @@ if (!empty($_POST)) {
 </head>
 <body>
 
+<header>
+    <div class="wrapper-back-coffee">
+            <a href="../index.php" class="btn btn-back-coffee shadow-sm">
+                <i class="bi bi-arrow-left-circle me-2"></i>Voltar ao Início
+            </a>
+        </div>
+
+        <div class="container">
+            <div class="row"></header>
+
 <div class="container d-flex justify-content-center">
     <div class="form-container shadow">
         

@@ -86,7 +86,7 @@
         <hr>
 
         <div class="mb-4">
-            <a href="cliente/Cafeteria/index.html" class="btn btn-lg btn-coffee-primary w-100 py-3 shadow-sm">
+            <a href="./site/cliente/Cafeteria/paginas/cafe.html" class="btn btn-lg btn-coffee-primary w-100 py-3 shadow-sm">
                 <i class="bi bi-journal-richtext me-2"></i>Ver Nosso Cardápio
             </a>
         </div>

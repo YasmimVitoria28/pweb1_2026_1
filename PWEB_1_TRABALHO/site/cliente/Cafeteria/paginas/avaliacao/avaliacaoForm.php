@@ -67,6 +67,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 <body class="bg-light p-5">
+
+<header>
+    <button class="btn btn-primary position-fixed" style="left: 20px; top: 50%; transform: translateY(-50%); z-index: 1030;" onclick="history.back()"><!--voltar tela anterior-->
+        &larr; Voltar
+    </button>
+</header>
+
     <div class="container" style="max-width: 600px;">
         <h2 class="mb-4"><?= $id ? "Editar Avaliação #$id" : "Nova Avaliação" ?></h2>
         
