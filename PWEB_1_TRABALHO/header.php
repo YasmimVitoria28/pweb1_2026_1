@@ -12,15 +12,13 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         
         <style>
-            /* FIXED garante que ele fique no topo esquerdo independente do CSS da página que o chama */
             .wrapper-back-coffee {
                 position: fixed !important;
                 top: 20px !important;
                 left: 20px !important;
-                z-index: 9999 !important; /* Camada máxima para não sumir atrás de cards ou modais */
+                z-index: 9999 !important;
             }
 
-            /* Estilo customizado Grão de Ouro */
             .btn-back-coffee {
                 background-color: #2a0810 !important;
                 color: #E8BC73 !important;

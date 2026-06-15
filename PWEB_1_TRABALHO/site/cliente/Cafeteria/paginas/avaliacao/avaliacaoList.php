@@ -103,6 +103,3 @@ $avaliacoes = $db->all();
     </div>
 </div>
 
-<?php 
-//include '../footer.php'; 
-?>

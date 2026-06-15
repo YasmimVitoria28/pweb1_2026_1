@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $mensagem_sucesso = $_SESSION['mensagem_sucesso'] ?? '';
 $mensagem_erro = $_SESSION['mensagem_erro'] ?? '';
@@ -17,15 +19,8 @@ unset($_SESSION['mensagem_erro']);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./style.css" />
     <style>
-        /* Define a cor das letras solicitada de forma global */
-        body {
-            color: #D4A35D;
-        }
-
-        /* Garante que os títulos, labels e textos secundários sigam o padrão de cor */
-        h2, h3, .form-label, .footer-label, .text-muted, p strong {
-            color: #D4A35D !important;
-        }
+        body { color: #D4A35D; }
+        h2, h3, .form-label, .footer-label, .text-muted, p strong { color: #D4A35D !important; }
 
         .alert-custom {
             position: fixed;
@@ -35,38 +30,25 @@ unset($_SESSION['mensagem_erro']);
             min-width: 300px;
             animation: slideIn 0.3s ease-out;
         }
-        
         @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(100%); opacity: 0; }
+            to   { transform: translateX(0);    opacity: 1; }
         }
-        
-        .btn-enviar {
-            transition: all 0.3s ease;
-        }
-        
-        .btn-enviar:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
+        .btn-enviar { transition: all 0.3s ease; }
+        .btn-enviar:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
+
     <?php if ($mensagem_sucesso): ?>
-        <div class="alert alert-success alert-dismissible fade show alert-custom" role="alert">
+        <div class="alert alert-success alert-dismissible fade show alert-custom" role="alert" id="alerta-sucesso">
             <strong>✓ Sucesso!</strong> <?= htmlspecialchars($mensagem_sucesso) ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
         </div>
     <?php endif; ?>
-    
+
     <?php if ($mensagem_erro): ?>
-        <div class="alert alert-danger alert-dismissible fade show alert-custom" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show alert-custom" role="alert" id="alerta-erro">
             <strong>✗ Erro!</strong> <?= htmlspecialchars($mensagem_erro) ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
         </div>
@@ -80,23 +62,21 @@ unset($_SESSION['mensagem_erro']);
             <div class="row">
                 <div class="card" style="width: 18rem;">
                     <a href="./cafe.html">
-                        <img src="../img/produtos.jpeg" class="card-img-top cardimg" alt="Cardápio">
+                        <img src="../../../admin/categoria/img/produtos.jpeg" class="card-img-top cardimg" alt="Cardápio">
                         <span>Cardápio</span>
                     </a>
                     <div class="card-body"></div>
                 </div>
-
                 <div class="card" style="width: 18rem;">
                     <a href="./sobre.html">
-                        <img src="../img/sobrenos.png" class="card-img-top cardimg" alt="Sobre Nós">
+                        <img src="../../../admin/categoria/img/sobrenos.png" class="card-img-top cardimg" alt="Sobre Nós">
                         <span>Sobre Nós</span>
                     </a>
                     <div class="card-body"></div>
                 </div>
-
                 <div class="card" style="width: 18rem;">
                     <a href="./contato.php">
-                        <img src="../img/telefone.jpeg" class="card-img-top cardimg" alt="Contato">
+                        <img src="../../../admin/categoria/img/telefone.jpeg" class="card-img-top cardimg" alt="Contato">
                         <span>Contato</span>
                     </a>
                     <div class="card-body"></div>
@@ -110,33 +90,21 @@ unset($_SESSION['mensagem_erro']);
             <section class="formularios">
                 <div class="formulario">
                     <h2 class="titulo-formulario">Avaliar Produto</h2>
-                    
-                    <form action="avaliacao/avaliacaoForm.php" method="POST" id="formAvaliacao">
+
+                    <form action="avaliacao/avaliacaoForm.php" method="POST">
                         <input type="hidden" name="acao" value="salvar">
-                        
                         <input type="hidden" name="token" value="<?= session_id() ?>">
+                        <input type="hidden" name="redirect" value="<?= htmlspecialchars('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) ?>">
 
                         <div class="mb-3">
                             <label for="pedido_id" class="form-label">Código do Pedido *</label>
-                            <input type="number" 
-                                   id="pedido_id" 
-                                   name="pedido_id" 
-                                   class="form-control" 
-                                   placeholder="Ex: 101" 
-                                   min="1"
-                                   required>
+                            <input type="number" id="pedido_id" name="pedido_id" class="form-control" placeholder="Ex: 101" min="1" required>
                             <small class="text-muted">Informe o número do seu pedido</small>
                         </div>
 
                         <div class="mb-3">
                             <label for="produto_id" class="form-label">Código do Produto *</label>
-                            <input type="number" 
-                                   id="produto_id" 
-                                   name="produto_id" 
-                                   class="form-control" 
-                                   placeholder="Ex: 5" 
-                                   min="1"
-                                   required>
+                            <input type="number" id="produto_id" name="produto_id" class="form-control" placeholder="Ex: 5" min="1" required>
                             <small class="text-muted">Código do produto que deseja avaliar</small>
                         </div>
 
@@ -154,26 +122,15 @@ unset($_SESSION['mensagem_erro']);
 
                         <div class="mb-3">
                             <label for="comentario" class="form-label">Comentário</label>
-                            <textarea id="comentario" 
-                                      name="comentario" 
-                                      class="form-control" 
-                                      rows="4" 
+                            <textarea id="comentario" name="comentario" class="form-control" rows="4"
                                       placeholder="Conte-nos sua experiência com o produto..."
                                       maxlength="500"></textarea>
                             <small class="text-muted">Máximo de 500 caracteres</small>
                         </div>
 
                         <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary btn-enviar" id="btnEnviar">
-                                <span id="btnTexto">Enviar Avaliação</span>
-                                <span id="btnLoading" style="display: none;">
-                                    <span class="spinner-border spinner-border-sm" role="status"></span>
-                                    Enviando...
-                                </span>
-                            </button>
-                            <a href="./avaliacao/avaliacaoList.php" class="btn btn-outline-secondary d-flex align-items-center">
-                                Ver Avaliações
-                            </a>
+                            <button type="submit" class="btn btn-primary btn-enviar">Enviar Avaliação</button>
+                            <a href="./avaliacao/avaliacaoList.php" class="btn btn-outline-secondary d-flex align-items-center">Ver Avaliações</a>
                             <button type="reset" class="btn btn-outline-danger">Limpar</button>
                         </div>
                     </form>
@@ -188,14 +145,13 @@ unset($_SESSION['mensagem_erro']);
                         <p><strong>📞 Telefone:</strong> (49) 9 9999-9999</p>
                         <p><strong>⏰ Horário de Funcionamento:</strong> Seg-Sex: 08h às 18h | Sáb: 08h às 12h</p>
                     </div>
-                    <iframe 
-                        width="100%" 
-                        height="300" 
+                    <iframe
+                        width="100%"
+                        height="300"
                         style="border: 1px solid #ddd; border-radius: 8px;"
-                        src="https://www.openstreetmap.org/export/embed.html?bbox=-52.60079294443131%2C-27.13799612309493%2C-52.59779959917069%2C-27.136616471356163&amp;layer=mapnik&amp;marker=-27.137306299353984%2C-52.599296271800995" 
+                        src="https://www.openstreetmap.org/export/embed.html?bbox=-52.60079294443131%2C-27.13799612309493%2C-52.59779959917069%2C-27.136616471356163&amp;layer=mapnik&amp;marker=-27.137306299353984%2C-52.599296271800995"
                         allowfullscreen>
                     </iframe>
-                    <br/>
                 </div>
             </section>
         </article>
@@ -219,40 +175,23 @@ unset($_SESSION['mensagem_erro']);
             </div>
         </nav>
         <div class="text-center mt-3">
-            <small>&copy; 2024 Café Grão de Ouro - Todos os direitos reservados</small>
+            <small>&copy; 2026 Café Grão de Ouro - Todos os direitos reservados</small>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        // Feedback visual ao enviar formulário
-        document.getElementById('formAvaliacao').addEventListener('submit', function(e) {
-            const btnEnviar = document.getElementById('btnEnviar');
-            const btnTexto = document.getElementById('btnTexto');
-            const btnLoading = document.getElementById('btnLoading');
-            
-            btnEnviar.disabled = true;
-            btnTexto.style.display = 'none';
-            btnLoading.style.display = 'inline-block';
-            
-            // Reabilitar após 10 segundos (caso algo dê errado)
-            setTimeout(() => {
-                if (btnEnviar.disabled) {
-                    btnEnviar.disabled = false;
-                    btnTexto.style.display = 'inline-block';
-                    btnLoading.style.display = 'none';
-                }
-            }, 10000);
-        });
+        const alertaSucesso = document.getElementById('alerta-sucesso');
+        const alertaErro = document.getElementById('alerta-erro');
         
-        // Auto-fechar alertas após 5 segundos
-        setTimeout(() => {
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(alert => {
-                const bsAlert = new bootstrap.Alert(alert);
-                setTimeout(() => bsAlert.close(), 5000);
-            });
-        }, 1000);
+        if(alertaSucesso) {
+            setTimeout(() => bootstrap.Alert.getOrCreateInstance(alertaSucesso).close(), 5000);
+        }
+        if(alertaErro) {
+            setTimeout(() => bootstrap.Alert.getOrCreateInstance(alertaErro).close(), 5000);
+        }
     </script>
+
 </body>
 </html>

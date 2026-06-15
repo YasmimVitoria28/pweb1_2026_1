@@ -94,15 +94,15 @@ class db
     public function update($id, $dados)
 {
     $campos = "";
-    $vetorData = [];
+    $vetorData = [];//guarda
     $sep = "";
 
-    foreach ($dados as $campo => $valor) {
+    foreach ($dados as $campo => $valor) {//varre
         $campos .= $sep . "$campo = ?";
         $vetorData[] = $valor;
         $sep = ", ";
     }
-    $vetorData[] = $id; // id vai no final, para o WHERE
+    $vetorData[] = $id; 
 
     $sql = "UPDATE $this->table_name SET $campos WHERE id = ?";
 

@@ -1,52 +1,48 @@
 <?php
 include __DIR__ . '/../../../header.php';
 include '../database/db.class.php';
+
+// Instancia a classe apontando para a tabela 'pedidos'
 $db = new db('pedidos');
 
 // ==========================================
-// MÉTODO EXCLUIR (IGUAL AO AVALIACAOlist.PHP)
+// PROCESSO DE EXCLUSÃO (DELETE)
 // ==========================================
 if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
-    $host = "localhost";
-    $banco = "cafeteria";
-    $usuario = "root";
-    $senha = "";
-
-    try {
-        $pdo = new PDO("mysql:host=$host;dbname=$banco;charset=utf8", $usuario, $senha);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
-        $id = (int) $_GET['id'];
-        
-        // Executa a exclusão na tabela correta (pedidos)
-        $stmtDelete = $pdo->prepare("DELETE FROM pedidos WHERE id = ?");
-        $stmtDelete->execute([$id]);
-        
-        // Redireciona de volta com uma mensagem de sucesso
+    $id = (int) $_GET['id'];
+    
+    // Executa a exclusão de forma segura utilizando o db.class
+    if ($db->delete($id)) {
         header("Location: PostList.php?sucesso=" . urlencode("Pedido removido com sucesso!"));
         exit;
-    } catch (PDOException $e) {
-        die("Erro ao excluir pedido: " . $e->getMessage());
+    } else {
+        die("Erro ao tentar excluir o pedido de ID: " . $id);
     }
 }
 
-// READ (Busca os dados atualizados para listar)
+// ==========================================
+// PROCESSO DE LEITURA (READ)
+// ==========================================
 $busca = $_GET['busca'] ?? '';
 $pedidos = $db->all();
 ?>
 
-
-
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Listagem de Pedidos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
 <body>
+
 <header>
-    <button class="btn btn-primary position-fixed" style="left: 20px; top: 50%; transform: translateY(-50%); z-index: 1030;" onclick="history.back()"><!--voltar tela anterior-->
+    <button class="btn btn-primary position-fixed" style="left: 20px; top: 50%; transform: translateY(-50%); z-index: 1030;" onclick="history.back()">
         &larr; Voltar
     </button>
 </header>
-</body>
 
-
-<div class="container mt-4">
+<div class="container mt-4" style="max-width: 900px;">
     <h2>Pedidos</h2>
 
     <form action="PostList.php" method="GET" class="d-flex my-3">
@@ -54,16 +50,17 @@ $pedidos = $db->all();
         <button type="submit" class="btn btn-primary">Buscar</button>
     </form>
 
-    <a href="PostForm.php" class="btn btn-primary mb-3">Novo Pedido</a>
+    <a href="PostForm.php" class="btn btn-success mb-3">Novo Pedido</a>
 
     <?php if (!empty($_GET['sucesso'])): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?= htmlspecialchars($_GET['sucesso']) ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="alerta-sucesso">
+            <strong>✓ Sucesso!</strong> <?= htmlspecialchars($_GET['sucesso']) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
         </div>
     <?php endif; ?>
 
     <div class="table-responsive bg-white p-3 border rounded shadow-sm">
-        <table class="table table-striped table-bordered align-middle">
+        <table class="table table-striped table-bordered align-middle m-0">
             <thead class="table-dark">
                 <tr>
                     <th>ID</th>
@@ -74,10 +71,15 @@ $pedidos = $db->all();
                 </tr>
             </thead>
             <tbody>
-                <?php $encontrou = false; ?>
-                <?php foreach ($pedidos as $p): ?>
-                    <?php if (!empty($busca) && stripos($p->nome_cafe, $busca) === false) continue; ?>
-                    <?php $encontrou = true; ?>
+                <?php 
+                $encontrou = false; 
+                foreach ($pedidos as $p): 
+                    // Se houver busca e o termo não for encontrado no nome do café, pula para o próximo
+                    if (!empty($busca) && stripos($p->nome_cafe, $busca) === false) {
+                        continue; 
+                    }
+                    $encontrou = true;
+                ?>
                     <tr>
                         <td><?= $p->id ?></td>
                         <td><?= $p->numero_pedido ?></td>
@@ -105,4 +107,17 @@ $pedidos = $db->all();
     </div>
 </div>
 
-<?php //include '../footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    const alerta = document.getElementById('alerta-sucesso');
+    if (alerta) {
+        setTimeout(() => {
+            const bsAlert = bootstrap.Alert.getOrCreateInstance(alerta);
+            if (bsAlert) bsAlert.close();
+        }, 5000);
+    }
+</script>
+
+</body>
+</html>
