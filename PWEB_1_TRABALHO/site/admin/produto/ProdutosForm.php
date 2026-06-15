@@ -2,7 +2,6 @@
 include __DIR__ . '/../../../header.php';
 include '../database/db.class.php';
 
-// Criando a instância da tabela produto seguindo a sua db.class
 $db = new db('produto');
 
 $mensagem = "";
@@ -11,7 +10,7 @@ $nome = "";
 $preco_unitario = "";
 $categoria = "";
 
-// Carregar dados para edição (Usa o método find() da sua classe db)
+//  find()
 if (!empty($_GET['editar'])) {
     $p = $db->find($_GET['editar']);
     if ($p) {
@@ -22,14 +21,13 @@ if (!empty($_GET['editar'])) {
     }
 }
 
-// Processar envio do formulário
+//envio do formulário
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id             = $_POST['id'] ?? '';
     $nome           = $_POST['nome'] ?? '';
     $preco_unitario = $_POST['preco_unitario'] ?? '';
     $categoria      = $_POST['categoria'] ?? '';
 
-    // Validação obrigatória dos campos
     if (empty($nome) || empty($preco_unitario) || empty($categoria)) {
         $mensagem = "<div class='alert alert-danger'>Todos os campos são obrigatórios!</div>";
     } else {

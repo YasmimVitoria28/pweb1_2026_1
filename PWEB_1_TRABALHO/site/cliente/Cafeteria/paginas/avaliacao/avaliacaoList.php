@@ -3,7 +3,7 @@ include __DIR__ . '/../../../../../header.php';
 include __DIR__ . '/../../../../admin/database/db.class.php';
 $db = new db('avaliacao');
 
-// Processar exclusão direta via PDO (idêntico ao ProdutoList)
+// Processa exclusão via PDO
 if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
     $host = "localhost";
     $banco = "cafeteria";
@@ -16,11 +16,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
         
         $id = (int) $_GET['id'];
         
-        // Executa a exclusão na tabela avaliacao
+  
         $stmtDelete = $pdo->prepare("DELETE FROM avaliacao WHERE id = ?");
         $stmtDelete->execute([$id]);
         
-        // Redireciona de volta com mensagem de sucesso
+        // Redireciona 
         header("Location: avaliacaoList.php?sucesso=" . urlencode("Avaliação removida com sucesso!"));
         exit;
     } catch (PDOException $e) {
@@ -28,7 +28,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
     }
 }
 
-// Campo de busca funcional
+//  busca 
 $busca = $_GET['busca'] ?? '';
 $avaliacoes = $db->all();
 ?>
@@ -71,7 +71,7 @@ $avaliacoes = $db->all();
                 <?php $encontrou = false; ?>
                 <?php foreach ($avaliacoes as $a): ?>
                     <?php 
-                    // Filtro inteligente focado no texto do comentário
+                    // Filtro
                     if (!empty($busca) && stripos($a->comentario ?? '', $busca) === false) continue;
                     $encontrou = true;
                     ?>

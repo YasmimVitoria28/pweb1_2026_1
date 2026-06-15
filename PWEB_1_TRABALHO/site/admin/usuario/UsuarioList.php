@@ -2,9 +2,7 @@
 include __DIR__ . '/../../../header.php';
 include '../database/db.class.php';
 
-// ==========================================
-// MÉTODO EXCLUIR (IGUAL AO AVALIACAOlist.PHP)
-// ==========================================
+
 if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
     $host = "localhost";
     $banco = "cafeteria";
@@ -17,11 +15,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
         
         $id = (int) $_GET['id'];
         
-        // Executa a exclusão na tabela correta (usuario)
+        // Executa a exclusão na tabela 
         $stmtDelete = $pdo->prepare("DELETE FROM usuario WHERE id = ?");
         $stmtDelete->execute([$id]);
         
-        // Redireciona de volta com uma mensagem de sucesso
+        // Redireciona 
         header("Location: UsuarioList.php?sucesso=" . urlencode("Usuário removido com sucesso!"));
         exit;
     } catch (PDOException $e) {
@@ -29,7 +27,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
     }
 }
 
-// Criando a instância da tabela usuario
+
 $db = new db('usuario');
 $dados = $db->all(); 
 ?>

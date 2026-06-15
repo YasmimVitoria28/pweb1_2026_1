@@ -48,7 +48,7 @@
             font-weight: bold;
         }
         
-        /* CARDS DO PAINEL */
+
         .card-admin {
             background-color: #2a0810 !important;
             border: 1px solid #D4A35D !important;
@@ -74,7 +74,7 @@
             color: #ffffff;
         }
 
-        /* STATUS E BORDA DO TITULO */
+
         .border-bottom-coffee {
             border-bottom: 2px solid #d48618 !important;
         }

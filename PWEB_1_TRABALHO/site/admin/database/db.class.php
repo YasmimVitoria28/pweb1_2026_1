@@ -14,9 +14,9 @@ class db
     {
         $this->table_name = $table_name;
         $this->conn = $this->connect(); 
-    }
+    }//recebe, guarda, conecta
 
-    private function connect()
+    private function connect()//se for, retorna objt
     {
         try {
             return new PDO(
@@ -113,5 +113,34 @@ class db
         var_dump("Erro ao atualizar", $e->getMessage());
     }
 }
+
+public function delete($id)
+{
+    $sql = "DELETE FROM $this->table_name WHERE id = ?";
+
+    try {
+        $st = $this->conn->prepare($sql);
+        // O execute retorna true em caso de sucesso e false em caso de falha
+        return $st->execute([$id]);
+    } catch (PDOException $e) {
+        var_dump("Erro ao excluir registro", $e->getMessage());
+        return false;
+    }
+}
+public function search($campo, $termo)
+{
+    //
+    $termoModificado = "%" . $termo . "%";
+    $sql = "SELECT * FROM $this->table_name WHERE $campo LIKE ?";
+
+    try {
+        $st = $this->conn->prepare($sql);
+        $st->execute([$termoModificado]);
+        return $st->fetchAll(PDO::FETCH_OBJ);
+    } catch (PDOException $e) {
+        var_dump("Erro ao realizar busca", $e->getMessage());
+        return [];
+    }
+}//parecido
 }
 

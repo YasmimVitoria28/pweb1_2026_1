@@ -5,7 +5,6 @@ include __DIR__ . '/../../../../admin/database/db.class.php';
 
 $db = new db('avaliacao');
 
-// Captura a página de origem para onde o usuário deve voltar
 $redirect_url = $_POST['redirect'] ?? '../contato.php';
 
 // READ
@@ -28,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nota       = $_POST['nota'] ?? '';
     $comentario = !empty($_POST['comentario']) ? $_POST['comentario'] : null;
 
-    // Validação de campos obrigatórios
+ 
     if (empty($pedido_id) || empty($produto_id) || empty($nota)) {
         $_SESSION['mensagem_erro'] = "Os campos Código do Pedido, Código do Produto e Nota são obrigatórios!";
         header("Location: " . $redirect_url);
@@ -42,16 +41,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
 
         if (empty($id)) {
-            // INSERT usando a estrutura do db.class
+            // INSERT 
             $db->store($dados);
             $_SESSION['mensagem_sucesso'] = "Avaliação cadastrada com sucesso!";
         } else {
-            // UPDATE usando a estrutura do db.class
+            // UPDATE
             $db->update($id, $dados);
             $_SESSION['mensagem_sucesso'] = "Avaliação atualizada com sucesso!";
         }
 
-        // Redireciona de volta para o contato.php imediatamente
+        // Redireciona 
         header("Location: " . $redirect_url);
         exit;
     }

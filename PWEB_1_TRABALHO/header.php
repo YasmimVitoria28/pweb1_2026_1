@@ -50,7 +50,7 @@
         if(!empty(trim($error))){
             echo " <div class='alert alert-danger border border-danger' role='alert'><i class='bi bi-exclamation-triangle-fill me-2'></i><strong>$error</strong></div>";
         }
-    }
+    }//msgm erro
 
     function showValidationError($errors = []){
         if (!empty($errors)) {
@@ -68,7 +68,7 @@
         if (is_object($data)) return htmlspecialchars($data->$campo ?? '');
         if (is_array($data)) return htmlspecialchars($data[$campo] ?? '');
         return '';
-    }
+    }//recupera
     ?>
 
        

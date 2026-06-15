@@ -1,9 +1,9 @@
 <?php
-// O header sempre deve ser o primeiro para carregar as funções e a sessão
+
 include __DIR__ . '/../../../header.php';
 include '../database/db.class.php';
 
-// Criando a instância da tabela usuario seguindo a sua db.class
+
 $db = new db('usuario');
 
 $mensagem = "";
@@ -13,58 +13,52 @@ $email = "";
 $telefone = "";
 $login = "";
 $senha = "";
-$nivel_acesso = "";
 
-// Carregar dados para edição (Usa o método find() da sua classe db)
+
 if (!empty($_GET['editar'])) {
     $u = $db->find($_GET['editar']);
     if ($u) {
-        $id           = $u->id;
-        $nome         = $u->nome;
-        $email        = $u->email;
-        $telefone     = $u->telefone;
-        $login        = $u->login;
-        $nivel_acesso = $u->nivel_acesso;
+        $id       = $u->id;
+        $nome     = $u->nome;
+        $email    = $u->email;
+        $telefone = $u->telefone;
+        $login    = $u->login;
     }
 }
 
-// Processar envio do formulário
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id           = $_POST['id'] ?? '';
-    $nome         = $_POST['nome'] ?? '';
-    $email        = $_POST['email'] ?? '';
-    $telefone     = $_POST['telefone'] ?? '';
-    $login        = $_POST['login'] ?? '';
-    $senha        = $_POST['senha'] ?? '';
-    $nivel_acesso = $_POST['nivel_acesso'] ?? '';
+    $id       = $_POST['id'] ?? '';
+    $nome     = $_POST['nome'] ?? '';
+    $email    = $_POST['email'] ?? '';
+    $telefone = $_POST['telefone'] ?? '';
+    $login    = $_POST['login'] ?? '';
+    $senha    = $_POST['senha'] ?? '';
 
-    // Validação obrigatória dos campos (Senha é obrigatória apenas se for um novo cadastro)
-    if (empty($nome) || empty($email) || empty($login) || empty($nivel_acesso) || (empty($id) && empty($senha))) {
+    if (empty($nome) || empty($email) || empty($login) || (empty($id) && empty($senha))) {
         $mensagem = "<div class='alert alert-danger'>Todos os campos (exceto telefone) são obrigatórios!</div>";
     } else {
-        // Monta o vetor de dados estruturado para a db.class
+        
         $dados = [
-            'nome'         => $nome,
-            'email'        => $email,
-            'telefone'     => $telefone,
-            'login'        => $login,
-            'nivel_acesso' => $nivel_acesso
+            'nome'     => $nome,
+            'email'    => $email,
+            'telefone' => $telefone,
+            'login'    => $login
         ];
 
-        // Se uma nova senha foi digitada, gera o hash seguro antes de salvar
+        // gera o hash 
         if (!empty($senha)) {
             $dados['senha'] = password_hash($senha, PASSWORD_DEFAULT);
         }
 
         if (empty($id)) {
-            // Se o ID estiver vazio, cria um novo registro usando store()
+           
             $db->store($dados);
             $mensagem = "<div class='alert alert-success'>Usuário cadastrado com sucesso!</div>";
             
-            // Limpa as variáveis para novos cadastros
-            $nome = $email = $telefone = $login = $senha = $nivel_acesso = ""; 
+            
+            $nome = $email = $telefone = $login = $senha = ""; 
         } else {
-            // Se o ID existir, atualiza o registro existente usando update()
+            
             $db->update($id, $dados);
             $mensagem = "<div class='alert alert-success'>Usuário atualizado com sucesso!</div>";
         }
@@ -72,18 +66,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<body>
 <header>
     <button class="btn btn-primary position-fixed" style="left: 20px; top: 50%; transform: translateY(-50%); z-index: 1030;" onclick="history.back()">&larr; Voltar
     </button>
 </header>
-</body>
 
-<div class="container mt-4">
+<div class="container mt-4" style="max-width: 700px;">
     <h2><?= $id ? "Editar Usuário" : "Novo Usuário" ?></h2>
     <?= $mensagem; ?>
     
-    <form action="UsuarioForm.php" method="POST" class="mt-3">
+    <form action="" method="POST" class="mt-3">
         <input type="hidden" name="id" value="<?= $id ?>">
 
         <div class="mb-3">
@@ -111,18 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" name="senha" class="form-control" placeholder="<?= $id ? 'Deixe em branco para manter a senha atual' : 'Digite a senha do usuário' ?>">
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Nível de Acesso:</label>
-            <select name="nivel_acesso" class="form-select">
-                <option value="">Selecione...</option>
-                <option value="cliente" <?= $nivel_acesso === 'cliente' ? 'selected' : '' ?>>Cliente</option>
-                <option value="funcionario" <?= $nivel_acesso === 'funcionario' ? 'selected' : '' ?>>Funcionário</option>
-                <option value="admin" <?= $nivel_acesso === 'admin' ? 'selected' : '' ?>>Administrador</option>
-            </select>
-        </div>
-
         <button type="submit" class="btn btn-success">Salvar Usuário</button>
         <a href="UsuarioList.php" class="btn btn-secondary">Ver Listagem</a>
     </form>
 </div>
-

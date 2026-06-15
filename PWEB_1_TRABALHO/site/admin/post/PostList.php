@@ -2,12 +2,11 @@
 include __DIR__ . '/../../../header.php';
 include '../database/db.class.php';
 
-// Instancia a classe apontando para a tabela 'pedidos'
+
 $db = new db('pedidos');
 
-// ==========================================
-// PROCESSO DE EXCLUSÃO (DELETE)
-// ==========================================
+//DELETE
+
 if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
     $id = (int) $_GET['id'];
     
@@ -20,9 +19,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
     }
 }
 
-// ==========================================
-// PROCESSO DE LEITURA (READ)
-// ==========================================
+
+//READ
+
 $busca = $_GET['busca'] ?? '';
 $pedidos = $db->all();
 ?>
