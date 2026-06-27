@@ -14,9 +14,9 @@ class db
     {
         $this->table_name = $table_name;
         $this->conn = $this->connect(); 
-    }//recebe, guarda, conecta
+    }
 
-    private function connect()//se for, retorna objt
+    private function connect()
     {
         try {
             return new PDO(
@@ -32,6 +32,7 @@ class db
         }
     }
 
+    // [R]ead - Ler todos os registros
     public function all()
     {
         $sql = "SELECT * FROM $this->table_name";
@@ -40,6 +41,7 @@ class db
         return $st->fetchAll(PDO::FETCH_OBJ);
     }
 
+    // [C]reate - Inserir um novo registro
     public function store($dados)
     {
         $campos = "";
@@ -63,20 +65,7 @@ class db
         }
     }
 
-    public function findBy($campo, $valor)
-    {
-        $sql = "SELECT * FROM $this->table_name WHERE $campo = ? LIMIT 1";
-
-        try {
-            $st = $this->conn->prepare($sql);
-            $st->execute([$valor]);
-            return $st->fetch(PDO::FETCH_OBJ);
-        } catch (PDOException $e) {
-            var_dump("Erro ao buscar registro", $e->getMessage());
-            return false;
-        }
-    }
-
+    // [R]ead - Buscar um registro específico por ID
     public function find($id)
     {
         $sql = "SELECT * FROM $this->table_name WHERE id = ? LIMIT 1";
@@ -91,56 +80,41 @@ class db
         }
     }
 
+    // [U]pdate - Atualizar um registro por ID
     public function update($id, $dados)
-{
-    $campos = "";
-    $vetorData = [];//guarda
-    $sep = "";
+    {
+        $campos = "";
+        $vetorData = [];
+        $sep = "";
 
-    foreach ($dados as $campo => $valor) {//varre
-        $campos .= $sep . "$campo = ?";
-        $vetorData[] = $valor;
-        $sep = ", ";
+        foreach ($dados as $campo => $valor) {
+            $campos .= $sep . "$campo = ?";
+            $vetorData[] = $valor;
+            $sep = ", ";
+        }
+        $vetorData[] = $id; // id vai no final, para o WHERE
+
+        $sql = "UPDATE $this->table_name SET $campos WHERE id = ?";
+
+        try {
+            $st = $this->conn->prepare($sql);
+            $st->execute($vetorData);
+        } catch (PDOException $e) {
+            var_dump("Erro ao atualizar", $e->getMessage());
+        }
     }
-    $vetorData[] = $id; 
 
-    $sql = "UPDATE $this->table_name SET $campos WHERE id = ?";
+    // [D]elete - Excluir um registro por ID
+    public function delete($id)
+    {
+        $sql = "DELETE FROM $this->table_name WHERE id = ?";
 
-    try {
-        $st = $this->conn->prepare($sql);
-        $st->execute($vetorData);
-    } catch (PDOException $e) {
-        var_dump("Erro ao atualizar", $e->getMessage());
+        try {
+            $st = $this->conn->prepare($sql);
+            return $st->execute([$id]);
+        } catch (PDOException $e) {
+            var_dump("Erro ao excluir registro", $e->getMessage());
+            return false;
+        }
     }
 }
-
-public function delete($id)
-{
-    $sql = "DELETE FROM $this->table_name WHERE id = ?";
-
-    try {
-        $st = $this->conn->prepare($sql);
-        // O execute retorna true em caso de sucesso e false em caso de falha
-        return $st->execute([$id]);
-    } catch (PDOException $e) {
-        var_dump("Erro ao excluir registro", $e->getMessage());
-        return false;
-    }
-}
-public function search($campo, $termo)
-{
-    //
-    $termoModificado = "%" . $termo . "%";
-    $sql = "SELECT * FROM $this->table_name WHERE $campo LIKE ?";
-
-    try {
-        $st = $this->conn->prepare($sql);
-        $st->execute([$termoModificado]);
-        return $st->fetchAll(PDO::FETCH_OBJ);
-    } catch (PDOException $e) {
-        var_dump("Erro ao realizar busca", $e->getMessage());
-        return [];
-    }
-}//parecido
-}
-
