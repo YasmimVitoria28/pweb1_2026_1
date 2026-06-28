@@ -1,6 +1,4 @@
 <?php
-
-
 include __DIR__ . '/../../../../header.php';
 include __DIR__ . '/../../../admin/database/db.class.php';
 
@@ -26,17 +24,17 @@ try {
 if (!empty($_GET['editar'])) {
     $av = $db->find($_GET['editar']);
     if ($av) {
-        $id = $av->id;
+        $id        = $av->id;
         $produto_id = $av->produto_id;
-        $nota = $av->nota;
+        $nota       = $av->nota;
         $comentario = $av->comentario;
     }
 }
 
 if (!empty($_POST)) {
-    $id = $_POST['id'] ?? '';
+    $id         = $_POST['id'] ?? '';
     $produto_id = $_POST['produto_id'] ?? '';
-    $nota = $_POST['nota'] ?? '';
+    $nota       = $_POST['nota'] ?? '';
     $comentario = $_POST['comentario'] ?? '';
 
     try {
@@ -51,11 +49,11 @@ if (!empty($_POST)) {
                 'comentario' => !empty($comentario) ? $comentario : null,
             ];
 
-            if (empty($id)) {
+            if (empty($_POST['id'])) {
                 $db->store($dados);
                 $mensagem = "Avaliação cadastrada com sucesso!";
             } else {
-                $db->update($id, $dados);
+                $db->update($_POST['id'], $dados);
                 $mensagem = "Avaliação atualizada com sucesso!";
             }
 
@@ -114,17 +112,17 @@ if (!empty($_POST)) {
             <hr>
             <ul class="nav flex-column gap-2">
                 <li class="nav-item">
-                    <a href="../../pedido/PostList.php" class="nav-link rounded p-2">
+                    <a href="../../../admin/post/PostList.php" class="nav-link rounded p-2">
                         <i class="bi bi-file-earmark-post me-2" style="color: #D4A35D;"></i> Pedidos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../produto/ProdutoList.php" class="nav-link rounded p-2">
+                    <a href="../../../admin/produto/ProdutoList.php" class="nav-link rounded p-2">
                         <i class="bi bi-cup-hot me-2" style="color: #D4A35D;"></i> Produtos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../usuario/UsuarioList.php" class="nav-link rounded p-2">
+                    <a href="../../../admin/usuario/UsuarioList.php" class="nav-link rounded p-2">
                         <i class="bi bi-people me-2" style="color: #D4A35D;"></i> Usuários
                     </a>
                 </li>
@@ -174,7 +172,8 @@ if (!empty($_POST)) {
                                     <option value="">Escolha um produto do cardápio</option>
                                     <?php foreach ($lista_produtos as $p): ?>
                                         <option value="<?= $p['id'] ?>" <?= $produto_id == $p['id'] ? 'selected' : '' ?>>
-                                            [<?= htmlspecialchars($p['categoria']) ?>] — <?= htmlspecialchars($p['nome']) ?> (R$ <?= number_format($p['preco_unitario'], 2, ',', '.') ?>)
+                                            [<?= htmlspecialchars($p['categoria']) ?>] — <?= htmlspecialchars($p['nome']) ?>
+                                            (R$ <?= number_format($p['preco_unitario'], 2, ',', '.') ?>)
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
