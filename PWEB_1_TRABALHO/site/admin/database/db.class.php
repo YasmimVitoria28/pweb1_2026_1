@@ -42,28 +42,29 @@ class db
     }
 
     // [C]reate - Inserir um novo registro
-    public function store($dados)
-    {
-        $campos = "";
-        $marcadores = "";
-        $vetorData = [];
-        $sep = "";
+public function store($dados)
+{
+    $campos = "";
+    $marcadores = "";
+    $vetorData = [];
+    $sep = "";
 
-        foreach ($dados as $campo => $valor) {
-            $campos .= $sep . $campo;
-            $marcadores .= $sep . "?";
-            $vetorData[] = $valor;
-            $sep = ",";
-        }
-        $sql = "INSERT INTO $this->table_name ($campos) VALUES ($marcadores)";
-
-        try {
-            $st = $this->conn->prepare($sql);
-            $st->execute($vetorData);
-        } catch (PDOException $e) {
-            var_dump("Erro ao inserir", $e->getMessage());
-        }
+    foreach ($dados as $campo => $valor) {
+        $campos .= $sep . $campo;
+        $marcadores .= $sep . "?";
+        $vetorData[] = $valor;
+        $sep = ",";
     }
+    $sql = "INSERT INTO $this->table_name ($campos) VALUES ($marcadores)";
+
+    try {
+        $st = $this->conn->prepare($sql);
+        return $st->execute($vetorData); // <-- adiciona return
+    } catch (PDOException $e) {
+        var_dump("Erro ao inserir", $e->getMessage());
+        return false;
+    }
+}
 
     // [R]ead - Buscar um registro específico por ID
     public function find($id)
@@ -76,6 +77,21 @@ class db
             return $st->fetch(PDO::FETCH_OBJ);
         } catch (PDOException $e) {
             var_dump("Erro ao buscar por ID", $e->getMessage());
+            return false;
+        }
+    }
+
+    // [R]ead - Buscar um registro por um campo específico
+    public function findBy($campo, $valor)
+    {
+        $sql = "SELECT * FROM $this->table_name WHERE $campo = ? LIMIT 1";
+
+        try {
+            $st = $this->conn->prepare($sql);
+            $st->execute([$valor]);
+            return $st->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            var_dump("Erro ao buscar por $campo", $e->getMessage());
             return false;
         }
     }

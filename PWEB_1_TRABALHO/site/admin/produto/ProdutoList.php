@@ -405,14 +405,5 @@ $produtos = $db->all();
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const alerta = document.getElementById('alerta-sucesso');
-    if (alerta) {
-        setTimeout(() => {
-            const bsAlert = bootstrap.Alert.getOrCreateInstance(alerta);
-            if (bsAlert) bsAlert.close();
-        }, 5000);
-    }
-</script>
 </body>
 </html>

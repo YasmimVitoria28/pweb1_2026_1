@@ -83,6 +83,4 @@ if (!empty($_POST)) {
 </div>
 
 <?php
-// Atenção: certifique-se se seu arquivo está em './footer.php' ou './php/footer.php'
-//include './php/footer.php';
 ?>

@@ -96,7 +96,6 @@ if (!empty($_POST)) {
             font-weight: bold;
         }
 
-        /* customização de inputs para combinar com o tema */
         .form-control-coffee {
             background-color: #1f0408 !important;
             border: 1px solid #C2933C !important;
@@ -113,7 +112,6 @@ if (!empty($_POST)) {
             font-weight: 500;
         }
 
-        /* botões personalizados */
         .btn-coffee-primary {
             background-color: #D4A35D !important;
             color: #37070E !important;
@@ -144,7 +142,6 @@ if (!empty($_POST)) {
             transform: translateY(-1px);
         }
 
-
         .alert-coffee {
             background-color: #1f0408 !important;
             border: 1px solid #D4A35D !important;
@@ -155,20 +152,9 @@ if (!empty($_POST)) {
             background-color: #D4A35D;
             opacity: 0.3;
         }
-        
     </style>
 </head>
 <body>
-<header>
-    <div class="wrapper-back-coffee">
-            <a href="../index.php" class="btn btn-back-coffee shadow-sm">
-                <i class="bi bi-arrow-left-circle me-2"></i>Voltar ao Início
-            </a>
-        </div>
-
-        <div class="container">
-            <div class="row">
-</header>
 
 <div class="container d-flex justify-content-center py-5">
     <div class="form-container shadow">
@@ -229,7 +215,6 @@ if (!empty($_POST)) {
         </form>
     </div>
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
