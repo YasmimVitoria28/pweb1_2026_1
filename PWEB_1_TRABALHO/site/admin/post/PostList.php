@@ -5,20 +5,14 @@ include '../database/db.class.php';
 // Criando a instância da tabela pedidos
 $db = new db('pedidos');
 
-// DELETE
+
 if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
     $id = (int) $_GET['id'];
-    
-    // Executa a exclusão de forma segura utilizando o db.class
-    if ($db->delete($id)) {
-        header("Location: PostList.php?sucesso=" . urlencode("Pedido removido com sucesso!"));
-        exit;
-    } else {
-        die("Erro ao tentar excluir o pedido de ID: " . $id);
-    }
+    $db->destroy($id);
+    header("Location: PostList.php?sucesso=" . urlencode("Pedido removido com sucesso!"));
+    exit;
 }
 
-// READ - Carregando todos os dados
 $busca = $_GET['busca'] ?? '';
 $pedidos = $db->all();
 ?>

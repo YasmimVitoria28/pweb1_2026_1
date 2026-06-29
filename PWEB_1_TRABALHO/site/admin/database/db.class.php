@@ -32,7 +32,7 @@ class db
         }
     }
 
-    // [R]ead - Ler todos os registros
+
     public function all()
     {
         $sql = "SELECT * FROM $this->table_name";
@@ -41,32 +41,30 @@ class db
         return $st->fetchAll(PDO::FETCH_OBJ);
     }
 
-    // [C]reate - Inserir um novo registro
-public function store($dados)
-{
-    $campos = "";
-    $marcadores = "";
-    $vetorData = [];
-    $sep = "";
+    public function store($dados)
+    {
+        $campos = "";
+        $marcadores = "";
+        $vetorData = [];
+        $sep = "";
 
-    foreach ($dados as $campo => $valor) {
-        $campos .= $sep . $campo;
-        $marcadores .= $sep . "?";
-        $vetorData[] = $valor;
-        $sep = ",";
+        foreach ($dados as $campo => $valor) {
+            $campos .= $sep . $campo;
+            $marcadores .= $sep . "?";
+            $vetorData[] = $valor;
+            $sep = ",";
+        }
+        $sql = "INSERT INTO $this->table_name ($campos) VALUES ($marcadores)";
+
+        try {
+            $st = $this->conn->prepare($sql);
+            return $st->execute($vetorData);
+        } catch (PDOException $e) {
+            var_dump("Erro ao inserir", $e->getMessage());
+            return false;
+        }
     }
-    $sql = "INSERT INTO $this->table_name ($campos) VALUES ($marcadores)";
 
-    try {
-        $st = $this->conn->prepare($sql);
-        return $st->execute($vetorData); // <-- adiciona return
-    } catch (PDOException $e) {
-        var_dump("Erro ao inserir", $e->getMessage());
-        return false;
-    }
-}
-
-    // [R]ead - Buscar um registro específico por ID
     public function find($id)
     {
         $sql = "SELECT * FROM $this->table_name WHERE id = ? LIMIT 1";
@@ -81,7 +79,6 @@ public function store($dados)
         }
     }
 
-    // [R]ead - Buscar um registro por um campo específico
     public function findBy($campo, $valor)
     {
         $sql = "SELECT * FROM $this->table_name WHERE $campo = ? LIMIT 1";
@@ -96,7 +93,6 @@ public function store($dados)
         }
     }
 
-    // [U]pdate - Atualizar um registro por ID
     public function update($id, $dados)
     {
         $campos = "";
@@ -108,7 +104,7 @@ public function store($dados)
             $vetorData[] = $valor;
             $sep = ", ";
         }
-        $vetorData[] = $id; // id vai no final, para o WHERE
+        $vetorData[] = $id;
 
         $sql = "UPDATE $this->table_name SET $campos WHERE id = ?";
 
@@ -120,8 +116,8 @@ public function store($dados)
         }
     }
 
-    // [D]elete - Excluir um registro por ID
-    public function delete($id)
+
+    public function destroy($id)
     {
         $sql = "DELETE FROM $this->table_name WHERE id = ?";
 

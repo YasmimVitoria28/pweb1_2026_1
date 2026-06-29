@@ -6,28 +6,15 @@ $db = new db('avaliacao');
 
 if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
     $id = (int) $_GET['id'];
-    if ($db->delete($id)) {
-        header("Location: avaliacaoList.php?sucesso=" . urlencode("Avaliação removida com sucesso!"));
-        exit;
-    } else {
-        die("Erro ao tentar excluir a avaliação de ID: " . $id);
-    }
+    $db->destroy($id);
+    header("Location: avaliacaoList.php?sucesso=" . urlencode("Avaliação removida com sucesso!"));
+    exit;
 }
 
 $busca = $_GET['busca'] ?? '';
 $avaliacoes = $db->all();
-
-$produtosMap = [];
-try {
-    $pdo = new PDO("mysql:host=127.0.0.1;dbname=cafeteria;charset=utf8mb4", "root", "");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt = $pdo->query("SELECT id, nome, categoria FROM produto");
-    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $produto) {
-        $produtosMap[$produto['id']] = $produto;
-    }
-} catch (Exception $e) {
-    $produtosMap = [];
-}
+$dbProduto = new db('produto');
+$produtos = $dbProduto->all();
 ?>
 
 <!DOCTYPE html>
@@ -111,18 +98,14 @@ try {
                 <h1 class="h2 title-coffee">
                     <i class="bi bi-star me-2"></i>Listagem de Avaliações
                 </h1>
-                <div class="text-light opacity-75">
-                    <span class="badge badge-coffee fs-6">
-                        <?= count($avaliacoes) ?> avaliações
-                    </span>
-                </div>
+                <span class="badge badge-coffee fs-6"><?= count($avaliacoes) ?> avaliações</span>
             </div>
 
             <?php if (!empty($_GET['sucesso'])): ?>
                 <div class="alert alert-success alert-coffee alert-dismissible fade show" role="alert" id="alerta-sucesso">
                     <i class="bi bi-check-circle me-2"></i>
                     <strong>Sucesso!</strong> <?= htmlspecialchars($_GET['sucesso']) ?>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
 
@@ -164,81 +147,74 @@ try {
                         <table class="table table-coffee table-hover mb-0">
                             <thead>
                                 <tr>
-                                    <th scope="col" width="5%">#</th>
-                                    <th scope="col" width="25%">Produto</th>
-                                    <th scope="col" width="10%">Nota</th>
-                                    <th scope="col" width="45%">Comentário</th>
-                                    <th scope="col" width="15%" class="text-center">Ações</th>
+                                    <th width="5%">#</th>
+                                    <th width="25%">Produto</th>
+                                    <th width="10%">Nota</th>
+                                    <th width="45%">Comentário</th>
+                                    <th width="15%" class="text-center">Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $encontrou = false;
-                                if (!empty($avaliacoes)) {
-                                    foreach ($avaliacoes as $a) {
+                                if (!empty($avaliacoes)):
+                                    foreach ($avaliacoes as $a):
                                         if (!empty($busca) && stripos($a->comentario ?? '', $busca) === false) continue;
                                         $encontrou = true;
-                                        $produto = $produtosMap[$a->produto_id] ?? null;
-                                        $nomeProduto = $produto ? $produto['nome'] : "Produto #{$a->produto_id}";
-                                        $categoriaProduto = $produto ? $produto['categoria'] : "Sem categoria";
-                                        ?>
-                                        <tr>
-                                            <th scope="row">
-                                                <span class="badge badge-coffee"><?= $a->id ?></span>
-                                            </th>
-                                            <td>
-                                                <i class="bi bi-cup-hot me-2" style="color: #D4A35D;"></i>
-                                                <strong><?= htmlspecialchars($nomeProduto) ?></strong><br>
-                                                <small style="color: #E8BC73;">[<?= htmlspecialchars($categoriaProduto) ?>]</small>
-                                            </td>
-                                            <td>
-                                                <span style="color: #D4A35D; font-size: 1.2em;">
-                                                    <?= str_repeat("⭐", $a->nota) ?>
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <i class="bi bi-chat-text me-2" style="color: #D4A35D;"></i>
-                                                <?= htmlspecialchars($a->comentario ?? 'Sem comentário') ?>
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="btn-group" role="group">
-                                                    <a href="../contato.php?editar=<?= $a->id ?>"
-                                                       class="btn btn-coffee-warning btn-sm"
-                                                       title="Editar avaliação">
-                                                        <i class="bi bi-pencil me-1"></i> Editar
-                                                    </a>
-                                                    <a href="avaliacaoList.php?action=delete&id=<?= $a->id ?>"
-                                                       class="btn btn-coffee-danger btn-sm"
-                                                       title="Excluir avaliação"
-                                                       onclick="return confirm('Tem certeza que deseja excluir esta avaliação?')">
-                                                        <i class="bi bi-trash me-1"></i> Excluir
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                    }
-                                }
+
+                                        $produto = null;
+                                        foreach ($produtos as $pr) {
+                                            if ($pr->id == $a->produto_id) { $produto = $pr; break; }
+                                        }
+                                        $nomeProduto     = $produto ? htmlspecialchars($produto->nome)      : "Produto #{$a->produto_id}";
+                                        $categoriaProduto = $produto ? htmlspecialchars($produto->categoria) : "Sem categoria";
+                                ?>
+                                <tr>
+                                    <th><span class="badge badge-coffee"><?= $a->id ?></span></th>
+                                    <td>
+                                        <i class="bi bi-cup-hot me-2" style="color: #D4A35D;"></i>
+                                        <strong><?= $nomeProduto ?></strong><br>
+                                        <small style="color: #E8BC73;">[<?= $categoriaProduto ?>]</small>
+                                    </td>
+                                    <td><span style="color: #D4A35D; font-size: 1.2em;"><?= str_repeat("⭐", $a->nota) ?></span></td>
+                                    <td>
+                                        <i class="bi bi-chat-text me-2" style="color: #D4A35D;"></i>
+                                        <?= htmlspecialchars($a->comentario ?? 'Sem comentário') ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <a href="../contato.php?editar=<?= $a->id ?>" class="btn btn-coffee-warning btn-sm">
+                                                <i class="bi bi-pencil me-1"></i> Editar
+                                            </a>
+                                            <a href="avaliacaoList.php?action=delete&id=<?= $a->id ?>"
+                                               class="btn btn-coffee-danger btn-sm"
+                                               onclick="return confirm('Tem certeza que deseja excluir esta avaliação?')">
+                                                <i class="bi bi-trash me-1"></i> Excluir
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php
+                                    endforeach;
+                                endif;
 
                                 if (!$encontrou): ?>
-                                    <tr>
-                                        <td colspan="5" class="text-center py-5">
-                                            <i class="bi bi-inbox fs-1 d-block mb-3" style="color: #D4A35D;"></i>
-                                            <p class="text-muted-coffee mb-2">Nenhuma avaliação encontrada</p>
-                                            <?php if (!empty($busca)): ?>
-                                                <small style="color: #E8BC73;">
-                                                    Nenhum resultado para "<strong><?= htmlspecialchars($busca) ?></strong>"
-                                                </small><br>
-                                                <a href="avaliacaoList.php" class="btn btn-coffee-primary btn-sm mt-2">
-                                                    <i class="bi bi-arrow-left me-1"></i> Voltar para lista completa
-                                                </a>
-                                            <?php else: ?>
-                                                <a href="../contato.php" class="btn btn-coffee-success btn-sm mt-2">
-                                                    <i class="bi bi-plus-lg me-1"></i> Criar primeira avaliação
-                                                </a>
-                                            <?php endif; ?>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td colspan="5" class="text-center py-5">
+                                        <i class="bi bi-inbox fs-1 d-block mb-3" style="color: #D4A35D;"></i>
+                                        <p class="text-muted-coffee mb-2">Nenhuma avaliação encontrada</p>
+                                        <?php if (!empty($busca)): ?>
+                                            <small style="color: #E8BC73;">Nenhum resultado para "<strong><?= htmlspecialchars($busca) ?></strong>"</small><br>
+                                            <a href="avaliacaoList.php" class="btn btn-coffee-primary btn-sm mt-2">
+                                                <i class="bi bi-arrow-left me-1"></i> Voltar para lista completa
+                                            </a>
+                                        <?php else: ?>
+                                            <a href="../contato.php" class="btn btn-coffee-success btn-sm mt-2">
+                                                <i class="bi bi-plus-lg me-1"></i> Criar primeira avaliação
+                                            </a>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
                                 <?php endif; ?>
                             </tbody>
                         </table>
@@ -259,8 +235,7 @@ try {
                             ?>
                         </small>
                         <small style="color: #E8BC73;">
-                            <i class="bi bi-star me-1"></i>
-                            Média geral:
+                            <i class="bi bi-star me-1"></i> Média geral:
                             <strong style="color: #D4A35D;">
                                 <?php
                                 $soma = 0; $qtd = 0;

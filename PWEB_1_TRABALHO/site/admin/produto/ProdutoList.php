@@ -6,13 +6,9 @@ $db = new db('produto');
 
 if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
     $id = (int) $_GET['id'];
-    
-    if ($db->delete($id)) {
-        header("Location: ProdutoList.php?sucesso=" . urlencode("Produto removido com sucesso!"));
-        exit;
-    } else {
-        die("Erro ao tentar excluir o produto de ID: " . $id);
-    }
+    $db->destroy($id);
+    header("Location: ProdutoList.php?sucesso=" . urlencode("Produto removido com sucesso!"));
+    exit;
 }
 
 $busca = $_GET['busca'] ?? '';

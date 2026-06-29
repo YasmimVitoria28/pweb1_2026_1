@@ -6,13 +6,9 @@ $db = new db('usuario');
 
 if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
     $id = (int) $_GET['id'];
-    
-    if ($db->delete($id)) {
-        header("Location: UsuarioList.php?sucesso=" . urlencode("Usuário removido com sucesso!"));
-        exit;
-    } else {
-        die("Erro ao tentar excluir o usuário de ID: " . $id);
-    }
+    $db->destroy($id);
+    header("Location: UsuarioList.php?sucesso=" . urlencode("Usuário removido com sucesso!"));
+    exit;
 }
 
 $busca = $_GET['busca'] ?? '';

@@ -2,18 +2,17 @@
 include __DIR__ . '/../../../../header.php';
 include __DIR__ . '/../../../admin/database/db.class.php';
 
-$db = new db('avaliacao'); // <-- movido para cima
+$db = new db('avaliacao');
+$dbProduto = new db('produto');
 
 $mensagem_sucesso = '';
 $mensagem_erro    = '';
 
-// Variáveis do formulário
 $id         = null;
 $produto_id = '';
 $nota       = '';
 $comentario = '';
 
-// Carregar dados para edição
 if (!empty($_GET['editar'])) {
     $av = $db->find((int) $_GET['editar']);
     if ($av) {
@@ -24,21 +23,10 @@ if (!empty($_GET['editar'])) {
     }
 }
 
-$lista_produtos = [];
-try {
-    $pdo = new PDO("mysql:host=127.0.0.1;dbname=cafeteria;charset=utf8mb4", "root", "");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt = $pdo->query("SELECT id, nome, categoria, preco_unitario FROM produto ORDER BY categoria, nome");
-    $lista_produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-    $mensagem_erro = "Erro ao carregar produtos: " . $e->getMessage();
-}
-
-$avaliacoes = $db->all();
-
+$lista_produtos = $dbProduto->all();
 $produtosMap = [];
 foreach ($lista_produtos as $p) {
-    $produtosMap[$p['id']] = $p;
+    $produtosMap[$p->id] = $p;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -59,26 +47,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'comentario' => !empty($comentario) ? $comentario : null,
         ];
 
-        if ($id_post) {
-            // EDITAR
-            $db->update($id_post, $dados);
-            $mensagem_sucesso = "Avaliação atualizada com sucesso!";
-        } else {
-            // CRIAR
-            if ($db->store($dados)) {
-                $mensagem_sucesso = "Avaliação enviada com sucesso! Obrigado pelo seu feedback.";
+        try {
+            if ($id_post) {
+                $db->update($id_post, $dados);
+                $mensagem_sucesso = "Avaliação atualizada com sucesso!";
             } else {
-                $mensagem_erro = "Erro ao salvar avaliação. Tente novamente.";
+                $db->store($dados);
+                $mensagem_sucesso = "Avaliação enviada com sucesso! Obrigado pelo seu feedback.";
             }
+            $id = null; $produto_id = ''; $nota = ''; $comentario = '';
+        } catch (Exception $e) {
+            $mensagem_erro = "Erro ao salvar: " . $e->getMessage();
         }
-
-        // Limpa o formulário após salvar
-        $id = null; $produto_id = ''; $nota = ''; $comentario = '';
-        $avaliacoes = $db->all();
     } else {
         $mensagem_erro = implode('<br>', $erros);
     }
 }
+
+$avaliacoes = $db->all();
 ?>
 
 <!doctype html>
@@ -107,14 +93,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
     <?php if ($mensagem_sucesso): ?>
-        <div class="alert alert-success alert-dismissible fade show alert-custom" role="alert" id="alerta">
+        <div class="alert alert-success alert-dismissible fade show alert-custom" role="alert">
             <strong>✓ Sucesso!</strong> <?= htmlspecialchars($mensagem_sucesso) ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     <?php endif; ?>
 
     <?php if ($mensagem_erro): ?>
-        <div class="alert alert-danger alert-dismissible fade show alert-custom" role="alert" id="alerta">
+        <div class="alert alert-danger alert-dismissible fade show alert-custom" role="alert">
             <strong>✗ Erro!</strong> <?= $mensagem_erro ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
@@ -135,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="card" style="width: 18rem;">
                     <a href="./sobre.html">
-                        <img src="../../../admin/categoria/img/sobrenos.png"class="card-img-top cardimg" alt="Sobre Nós">
+                        <img src="../../../admin/categoria/img/sobrenos.png" class="card-img-top cardimg" alt="Sobre Nós">
                         <span>Sobre Nós</span>
                     </a>
                     <div class="card-body"></div>
@@ -161,51 +147,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </h2>
 
                     <form action="contato.php" method="POST">
-    <?php if ($id): ?>
-        <input type="hidden" name="id" value="<?= $id ?>">
-    <?php endif; ?>
+                        <?php if ($id): ?>
+                            <input type="hidden" name="id" value="<?= $id ?>">
+                        <?php endif; ?>
 
-    <div class="mb-3">
-        <label for="produto_id" class="form-label text-warning fw-bold">Produto *</label>
-        <select id="produto_id" name="produto_id" class="form-select bg-dark text-white border-warning" required>
-            <option value="">Escolha um produto do cardápio</option>
-            <?php foreach ($lista_produtos as $p): ?>
-                <option value="<?= $p['id'] ?>"
-                    <?= (string)$p['id'] === (string)$produto_id ? 'selected' : '' ?>>
-                    [<?= htmlspecialchars($p['categoria']) ?>] — <?= htmlspecialchars($p['nome']) ?>
-                    (R$ <?= number_format($p['preco_unitario'], 2, ',', '.') ?>)
-                </option>
-            <?php endforeach; ?>
-        </select>
-    </div>
+                        <div class="mb-3">
+                            <label for="produto_id" class="form-label text-warning fw-bold">Produto *</label>
+                            <select id="produto_id" name="produto_id" class="form-select bg-dark text-white border-warning" required>
+                                <option value="">Escolha um produto do cardápio</option>
+                                <?php foreach ($lista_produtos as $p): ?>
+                                    <option value="<?= $p->id ?>" <?= (string)$p->id === (string)$produto_id ? 'selected' : '' ?>>
+                                        [<?= htmlspecialchars($p->categoria) ?>] — <?= htmlspecialchars($p->nome) ?>
+                                        (R$ <?= number_format($p->preco_unitario, 2, ',', '.') ?>)
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-    <div class="mb-3">
-        <label for="nota" class="form-label text-warning fw-bold">Nota *</label>
-        <select id="nota" name="nota" class="form-select bg-dark text-white border-warning" required>
-            <option value="">Selecione uma nota</option>
-            <option value="5" <?= $nota == 5 ? 'selected' : '' ?>>⭐⭐⭐⭐⭐ (Excelente)</option>
-            <option value="4" <?= $nota == 4 ? 'selected' : '' ?>>⭐⭐⭐⭐ (Muito Bom)</option>
-            <option value="3" <?= $nota == 3 ? 'selected' : '' ?>>⭐⭐⭐ (Bom)</option>
-            <option value="2" <?= $nota == 2 ? 'selected' : '' ?>>⭐⭐ (Regular)</option>
-            <option value="1" <?= $nota == 1 ? 'selected' : '' ?>>⭐ (Ruim)</option>
-        </select>
-    </div>
+                        <div class="mb-3">
+                            <label for="nota" class="form-label text-warning fw-bold">Nota *</label>
+                            <select id="nota" name="nota" class="form-select bg-dark text-white border-warning" required>
+                                <option value="">Selecione uma nota</option>
+                                <option value="5" <?= $nota == 5 ? 'selected' : '' ?>>⭐⭐⭐⭐⭐ (Excelente)</option>
+                                <option value="4" <?= $nota == 4 ? 'selected' : '' ?>>⭐⭐⭐⭐ (Muito Bom)</option>
+                                <option value="3" <?= $nota == 3 ? 'selected' : '' ?>>⭐⭐⭐ (Bom)</option>
+                                <option value="2" <?= $nota == 2 ? 'selected' : '' ?>>⭐⭐ (Regular)</option>
+                                <option value="1" <?= $nota == 1 ? 'selected' : '' ?>>⭐ (Ruim)</option>
+                            </select>
+                        </div>
 
-    <div class="mb-3">
-        <label for="comentario" class="form-label text-warning fw-bold">Comentário</label>
-        <textarea id="comentario" name="comentario"
-                  class="form-control bg-dark text-white border-warning"
-                  rows="4"
-                  placeholder="Conte sobre sua experiência..."><?= htmlspecialchars($comentario ?? '') ?></textarea>
-    </div>
+                        <div class="mb-3">
+                            <label for="comentario" class="form-label text-warning fw-bold">Comentário</label>
+                            <textarea id="comentario" name="comentario"
+                                      class="form-control bg-dark text-white border-warning"
+                                      rows="4"
+                                      placeholder="Conte sobre sua experiência..."><?= htmlspecialchars($comentario ?? '') ?></textarea>
+                        </div>
 
-    <button type="submit" class="btn btn-warning text-dark fw-bold">
-        <?= $id ? 'Salvar Alterações' : 'Enviar Avaliação' ?>
-    </button>
-    <?php if ($id): ?>
-        <a href="contato.php" class="btn btn-outline-secondary ms-2">Cancelar</a>
-    <?php endif; ?>
-</form>
+                        <button type="submit" class="btn btn-warning text-dark fw-bold">
+                            <?= $id ? 'Salvar Alterações' : 'Enviar Avaliação' ?>
+                        </button>
+                        <?php if ($id): ?>
+                            <a href="contato.php" class="btn btn-outline-secondary ms-2">Cancelar</a>
+                        <?php endif; ?>
+                    </form>
 
                     <hr class="mt-5">
                     <h3 class="titulo-formulario mt-4">Avaliações dos Clientes</h3>
@@ -223,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <tbody>
                                     <?php foreach ($avaliacoes as $a):
                                         $prod = $produtosMap[$a->produto_id] ?? null;
-                                        $nomeProd = $prod ? htmlspecialchars($prod['nome']) : "Produto #{$a->produto_id}";
+                                        $nomeProd = $prod ? htmlspecialchars($prod->nome) : "Produto #{$a->produto_id}";
                                     ?>
                                     <tr>
                                         <td><?= $nomeProd ?></td>
@@ -237,7 +222,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php else: ?>
                         <p class="mt-3">Nenhuma avaliação ainda. Seja o primeiro a avaliar!</p>
                     <?php endif; ?>
-
                 </div>
             </section>
 
